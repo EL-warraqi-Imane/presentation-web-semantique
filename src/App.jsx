@@ -210,23 +210,6 @@ const App = () => {
         }}></div>
 
         <div style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{
-            display: 'inline-block',
-            padding: '0.75rem 2rem',
-            background: 'linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%)',
-            borderRadius: '50px',
-            border: '2px solid rgba(59, 130, 246, 0.2)',
-            marginBottom: '2rem'
-          }}>
-            <span style={{ 
-              fontSize: '1rem',
-              fontWeight: 600,
-              color: '#3b82f6'
-            }}>
-              Présentation Académique
-            </span>
-          </div>
-
           <h1 style={{ 
             fontSize: '5rem', 
             fontWeight: 800,
