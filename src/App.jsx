@@ -46,6 +46,10 @@ const App = () => {
     setIsFullscreen(false);
   }, []);
 
+  const getSlideHeight = () => {
+    return isFullscreen ? 'calc(100vh - 100px)' : 'calc(100vh - 180px)';
+  };
+
   const styles = {
     container: {
       minHeight: '100vh',
@@ -74,21 +78,22 @@ const App = () => {
       maxWidth: '1400px',
       margin: '0 auto',
       transition: 'padding 0.3s ease',
-      padding: '90px 1rem 90px 1rem'
+      padding: isFullscreen ? '50px 1rem 50px 1rem' : '90px 1rem 90px 1rem'
     },
-    slide: {
+    slide: (customHeight) => ({
       background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
       borderRadius: '24px',
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-      padding: '2rem',
+      padding: isFullscreen ? '1.5rem' : '2rem',
       margin: '0 auto',
-      minHeight: 'calc(100vh - 180px)',
+      height: customHeight || getSlideHeight(),
+      minHeight: customHeight || getSlideHeight(),
       position: 'relative',
       border: '1px solid rgba(148, 163, 184, 0.1)',
       overflow: 'hidden',
       display: 'flex',
       flexDirection: 'column'
-    },
+    }),
     button: {
       background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
       color: 'white',
@@ -113,10 +118,19 @@ const App = () => {
     card: {
       background: 'white',
       borderRadius: '16px',
-      padding: '1.25rem',
+      padding: isFullscreen ? '1rem' : '1.25rem',
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       transition: 'all 0.3s ease',
       border: '1px solid rgba(226, 232, 240, 0.8)'
+    },
+    fullscreenText: {
+      fontSize: isFullscreen ? 'clamp(0.85rem, 1.8vw, 0.95rem)' : 'clamp(0.85rem, 1.8vw, 1rem)'
+    },
+    fullscreenTitle: {
+      fontSize: isFullscreen ? 'clamp(1.25rem, 3.5vw, 2rem)' : 'clamp(1.5rem, 4vw, 2.5rem)'
+    },
+    fullscreenSubtitle: {
+      fontSize: isFullscreen ? 'clamp(0.8rem, 1.8vw, 1rem)' : 'clamp(0.9rem, 2vw, 1.25rem)'
     }
   };
 
@@ -195,22 +209,22 @@ const App = () => {
   }, [nextSlide, prevSlide, toggleFullscreen, exitFullscreen]);
 
   const Slide1 = () => (
-    <div style={styles.slide}>
-      <div style={{ textAlign: 'center', padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+    <div style={styles.slide()}>
+      <div style={{ textAlign: 'center', padding: isFullscreen ? '1rem' : '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
         <div style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '400px',
-          height: '400px',
+          width: isFullscreen ? '300px' : '400px',
+          height: isFullscreen ? '300px' : '400px',
           background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
           pointerEvents: 'none'
         }}></div>
 
         <div style={{ position: 'relative', zIndex: 1 }}>
           <h1 style={{ 
-            fontSize: 'clamp(2rem, 6vw, 4rem)', 
+            fontSize: isFullscreen ? 'clamp(1.75rem, 5vw, 3rem)' : 'clamp(2rem, 6vw, 4rem)', 
             fontWeight: 700,
             ...styles.gradientText,
             marginBottom: '0.75rem',
@@ -220,10 +234,10 @@ const App = () => {
             Web Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(0.9rem, 2.2vw, 1.25rem)' : 'clamp(1rem, 2.5vw, 1.5rem)',
             color: '#64748b',
             fontWeight: 500,
-            marginBottom: '1.5rem'
+            marginBottom: isFullscreen ? '1rem' : '1.5rem'
           }}>
             Définition, Origine, Objectifs et Technologies
           </h2>
@@ -232,42 +246,48 @@ const App = () => {
             width: '100px',
             height: '4px',
             background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-            margin: '1.5rem auto 2rem',
+            margin: isFullscreen ? '1rem auto 1.5rem' : '1.5rem auto 2rem',
             borderRadius: '10px'
           }}></div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: '0.75rem',
+            gridTemplateColumns: isFullscreen ? 'repeat(auto-fit, minmax(140px, 1fr))' : 'repeat(auto-fit, minmax(160px, 1fr))',
+            gap: isFullscreen ? '0.5rem' : '0.75rem',
             maxWidth: '1000px',
-            margin: '0 auto 2rem'
+            margin: `0 auto ${isFullscreen ? '1rem' : '2rem'}`
           }}>
             {['Abdellah BOULIDAM', 'Youness BOUMLIK', 'Oumaima EL ALAMI', 'Zakaria EL HOUARI', 'Imane EL WARRAQI'].map((name, idx) => (
               <div key={idx} style={{
                 ...styles.card,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.75rem',
+                gap: isFullscreen ? '0.5rem' : '0.75rem',
+                padding: isFullscreen ? '0.5rem' : '0.75rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)',
                 transition: 'transform 0.3s ease'
               }}>
                 <div style={{
-                  width: '36px',
-                  height: '36px',
+                  width: isFullscreen ? '30px' : '36px',
+                  height: isFullscreen ? '30px' : '36px',
                   background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
                   borderRadius: '8px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '0.9rem',
+                  fontSize: isFullscreen ? '0.8rem' : '0.9rem',
                   flexShrink: 0
                 }}>
                   <FaUser />
                 </div>
-                <span style={{ fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.7rem, 1.8vw, 0.85rem)' }}>{name}</span>
+                <span style={{ 
+                  fontWeight: 500, 
+                  color: '#1e293b', 
+                  fontSize: isFullscreen ? 'clamp(0.6rem, 1.5vw, 0.75rem)' : 'clamp(0.7rem, 1.8vw, 0.85rem)' 
+                }}>
+                  {name}
+                </span>
               </div>
             ))}
           </div>
@@ -275,29 +295,39 @@ const App = () => {
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            gap: isFullscreen ? '0.5rem' : '0.75rem',
             background: 'linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%)',
-            padding: '1rem 1.5rem',
+            padding: isFullscreen ? '0.75rem 1rem' : '1rem 1.5rem',
             borderRadius: '16px',
             boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.1)',
             border: '1px solid rgba(59, 130, 246, 0.1)'
           }}>
             <div style={{
-              width: '45px',
-              height: '45px',
+              width: isFullscreen ? '40px' : '45px',
+              height: isFullscreen ? '40px' : '45px',
               background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
               borderRadius: '10px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '1.1rem'
+              fontSize: isFullscreen ? '1rem' : '1.1rem'
             }}>
               <FaChalkboardTeacher />
             </div>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>Encadré par</div>
-              <div style={{ fontSize: 'clamp(0.9rem, 2vw, 1.1rem)', fontWeight: 600, color: '#0f172a' }}>
+              <div style={{ 
+                fontSize: isFullscreen ? '0.6rem' : '0.7rem', 
+                color: '#64748b', 
+                marginBottom: '0.25rem' 
+              }}>
+                Encadré par
+              </div>
+              <div style={{ 
+                fontSize: isFullscreen ? 'clamp(0.8rem, 1.8vw, 1rem)' : 'clamp(0.9rem, 2vw, 1.1rem)', 
+                fontWeight: 600, 
+                color: '#0f172a' 
+              }}>
                 Mme Nidal LAMGHARI
               </div>
             </div>
@@ -308,9 +338,9 @@ const App = () => {
   );
 
   const Slide2 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'hidden' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+    <div style={styles.slide()}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'hidden' }}>
+        <div style={{ marginBottom: isFullscreen ? '1rem' : '2rem', textAlign: 'center' }}>
           <div style={{
             display: 'inline-block',
             background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
@@ -319,35 +349,29 @@ const App = () => {
             borderRadius: '50px',
             fontSize: '0.8rem',
             fontWeight: 600,
-            marginBottom: '1rem',
+            marginBottom: isFullscreen ? '0.75rem' : '1rem',
             border: '2px solid rgba(59, 130, 246, 0.2)'
           }}>
             Plan de la Présentation
           </div>
-          <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
-            color: '#0f172a',
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.02em'
-          }}>
+          <h1 style={styles.fullscreenTitle}>
             Plan de la Présentation
           </h1>
           <div style={{
             width: '60px',
             height: '3px',
             background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-            margin: '1rem auto',
+            margin: isFullscreen ? '0.75rem auto' : '1rem auto',
             borderRadius: '10px'
           }}></div>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '1rem',
+          gridTemplateColumns: isFullscreen ? 'repeat(auto-fit, minmax(200px, 1fr))' : 'repeat(auto-fit, minmax(240px, 1fr))',
+          gap: isFullscreen ? '0.75rem' : '1rem',
           overflowY: 'auto',
-          maxHeight: 'calc(100vh - 250px)',
+          maxHeight: isFullscreen ? 'calc(100vh - 200px)' : 'calc(100vh - 250px)',
           padding: '0.5rem'
         }}>
           {[
@@ -368,7 +392,7 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderLeft: `4px solid ${item.color}`,
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
               transition: 'transform 0.3s ease',
               cursor: 'pointer'
@@ -377,18 +401,18 @@ const App = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem'
+                gap: isFullscreen ? '0.5rem' : '0.75rem'
               }}>
                 <div style={{
-                  width: '45px',
-                  height: '45px',
+                  width: isFullscreen ? '40px' : '45px',
+                  height: isFullscreen ? '40px' : '45px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '10px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1rem',
+                  fontSize: isFullscreen ? '0.9rem' : '1rem',
                   flexShrink: 0,
                   boxShadow: `0 5px 15px -5px ${item.color}60`
                 }}>
@@ -405,7 +429,7 @@ const App = () => {
                     {item.num}
                   </div>
                   <h3 style={{
-                    fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
+                    fontSize: isFullscreen ? 'clamp(0.75rem, 1.6vw, 0.85rem)' : 'clamp(0.85rem, 1.8vw, 0.95rem)',
                     fontWeight: 600,
                     color: '#0f172a',
                     margin: 0,
@@ -419,31 +443,33 @@ const App = () => {
           ))}
         </div>
 
-        <div style={{
-          marginTop: '1.5rem',
-          textAlign: 'center',
-          padding: '1rem',
-          background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          borderRadius: '12px',
-          border: '2px solid rgba(245, 158, 11, 0.2)'
-        }}>
-          <p style={{
-            fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
-            color: '#92400e',
-            margin: 0,
-            fontWeight: 500
+        {!isFullscreen && (
+          <div style={{
+            marginTop: '1.5rem',
+            textAlign: 'center',
+            padding: '1rem',
+            background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
+            borderRadius: '12px',
+            border: '2px solid rgba(245, 158, 11, 0.2)'
           }}>
-            💡 Cliquez sur une section pour y accéder directement
-          </p>
-        </div>
+            <p style={{
+              fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+              color: '#92400e',
+              margin: 0,
+              fontWeight: 500
+            }}>
+              💡 Cliquez sur une section pour y accéder directement
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );
 
   const Slide3 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide()}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <div style={{
             display: 'inline-block',
             background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
@@ -452,18 +478,12 @@ const App = () => {
             borderRadius: '50px',
             fontSize: '0.8rem',
             fontWeight: 600,
-            marginBottom: '1rem',
+            marginBottom: isFullscreen ? '0.75rem' : '1rem',
             border: '2px solid rgba(59, 130, 246, 0.2)'
           }}>
             1. Introduction
           </div>
-          <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
-            color: '#0f172a',
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.02em'
-          }}>
+          <h1 style={styles.fullscreenTitle}>
             Introduction générale
           </h1>
         </div>
@@ -472,11 +492,11 @@ const App = () => {
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
           borderLeft: '4px solid #3b82f6',
-          marginBottom: '2rem',
-          padding: '1.5rem'
+          marginBottom: isFullscreen ? '1.5rem' : '2rem',
+          padding: isFullscreen ? '1rem' : '1.5rem'
         }}>
           <p style={{
-            fontSize: 'clamp(1rem, 2.2vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.25rem)' : 'clamp(1rem, 2.2vw, 1.5rem)',
             lineHeight: 1.5,
             color: '#1e293b',
             fontWeight: 400
@@ -488,8 +508,8 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '1rem',
-          marginBottom: '2rem'
+          gap: isFullscreen ? '0.75rem' : '1rem',
+          marginBottom: isFullscreen ? '1.5rem' : '2rem'
         }}>
           {[
             {
@@ -508,32 +528,32 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               textAlign: 'center',
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
-                width: '60px',
-                height: '60px',
+                width: isFullscreen ? '50px' : '60px',
+                height: isFullscreen ? '50px' : '60px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                 borderRadius: '14px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 1rem',
+                margin: '0 auto 0.75rem',
                 color: 'white',
-                fontSize: '1.5rem'
+                fontSize: isFullscreen ? '1.25rem' : '1.5rem'
               }}>
                 {item.icon}
               </div>
               <h3 style={{
-                fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                 fontWeight: 600,
                 marginBottom: '0.5rem',
                 color: '#0f172a'
               }}>
                 {item.title}
               </h3>
-              <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+              <p style={{ color: '#64748b', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>
                 {item.description}
               </p>
             </div>
@@ -555,7 +575,7 @@ const App = () => {
               display: 'flex',
               alignItems: 'flex-start',
               marginBottom: '0.75rem',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               background: idx === 3 ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)' : '#f8fafc',
               borderRadius: '10px',
               border: idx === 3 ? '2px solid #10b981' : '1px solid #e2e8f0'
@@ -579,7 +599,7 @@ const App = () => {
                 {idx === 3 ? '✓' : idx + 1}
               </div>
               <span style={{
-                fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+                fontSize: styles.fullscreenText.fontSize,
                 color: idx === 3 ? '#065f46' : '#334155',
                 fontWeight: idx === 3 ? 500 : 400,
                 lineHeight: 1.5
@@ -594,19 +614,18 @@ const App = () => {
   );
 
   const Slide4 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide()}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
           }}>
             2. Définition et comparaison
           </h1>
-          <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.25rem)', color: '#64748b', fontWeight: 400 }}>
+          <p style={{ ...styles.fullscreenSubtitle, color: '#64748b', fontWeight: 400 }}>
             Comprendre la différence entre le Web classique et le Web sémantique
           </p>
         </div>
@@ -614,9 +633,9 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: window.innerWidth > 768 ? '1fr auto 1fr' : '1fr',
-          gap: '1.5rem',
+          gap: isFullscreen ? '1rem' : '1.5rem',
           alignItems: 'stretch',
-          marginBottom: '2rem'
+          marginBottom: isFullscreen ? '1.5rem' : '2rem'
         }}>
           <div style={{
             ...styles.card,
@@ -626,24 +645,24 @@ const App = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1rem'
+              gap: isFullscreen ? '0.5rem' : '0.75rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem'
             }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: isFullscreen ? '45px' : '50px',
+                height: isFullscreen ? '45px' : '50px',
                 background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                 borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem'
+                fontSize: isFullscreen ? '1.1rem' : '1.25rem'
               }}>
                 <FaGlobe />
               </div>
               <h2 style={{
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
                 fontWeight: 700,
                 color: '#1e40af'
               }}>
@@ -666,7 +685,7 @@ const App = () => {
                   display: 'flex',
                   alignItems: 'flex-start',
                   marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  padding: isFullscreen ? '0.5rem' : '0.75rem',
                   background: '#f0f9ff',
                   borderRadius: '8px',
                   border: '1px solid #bfdbfe'
@@ -680,7 +699,7 @@ const App = () => {
                     flexShrink: 0,
                     marginTop: '2px'
                   }}></div>
-                  <span style={{ color: '#1e40af', fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: '#1e40af', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -690,13 +709,13 @@ const App = () => {
             <div style={{
               background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
               color: 'white',
-              width: '60px',
-              height: '60px',
+              width: isFullscreen ? '50px' : '60px',
+              height: isFullscreen ? '50px' : '60px',
               borderRadius: '50%',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              fontSize: '1.25rem',
+              fontSize: isFullscreen ? '1.1rem' : '1.25rem',
               fontWeight: 700,
               alignSelf: 'center'
             }}>
@@ -712,24 +731,24 @@ const App = () => {
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1rem'
+              gap: isFullscreen ? '0.5rem' : '0.75rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem'
             }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: isFullscreen ? '45px' : '50px',
+                height: isFullscreen ? '45px' : '50px',
                 background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
                 borderRadius: '12px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem'
+                fontSize: isFullscreen ? '1.1rem' : '1.25rem'
               }}>
                 <FaProjectDiagram />
               </div>
               <h2 style={{
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
                 fontWeight: 700,
                 color: '#7c3aed'
               }}>
@@ -752,7 +771,7 @@ const App = () => {
                   display: 'flex',
                   alignItems: 'flex-start',
                   marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  padding: isFullscreen ? '0.5rem' : '0.75rem',
                   background: '#faf5ff',
                   borderRadius: '8px',
                   border: '1px solid #e9d5ff'
@@ -766,7 +785,7 @@ const App = () => {
                     flexShrink: 0,
                     marginTop: '2px'
                   }}></div>
-                  <span style={{ color: '#7c3aed', fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: '#7c3aed', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -777,9 +796,9 @@ const App = () => {
           ...styles.card,
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
           borderLeft: '4px solid #f59e0b',
-          padding: '1.25rem'
+          padding: isFullscreen ? '1rem' : '1.25rem'
         }}>
-          <p style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1rem)', color: '#92400e', margin: 0, lineHeight: 1.5, fontWeight: 400 }}>
+          <p style={{ fontSize: styles.fullscreenText.fontSize, color: '#92400e', margin: 0, lineHeight: 1.5, fontWeight: 400 }}>
             L\'idée principale : Structurer les données de manière intelligente afin que les ordinateurs puissent les interpréter, 
             les relier et les exploiter automatiquement.
           </p>
@@ -789,24 +808,23 @@ const App = () => {
   );
 
   const Slide5 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide()}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
           }}>
             3. Évolution du Web
           </h1>
-          <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.25rem)', color: '#64748b', fontWeight: 400 }}>
+          <p style={{ ...styles.fullscreenSubtitle, color: '#64748b', fontWeight: 400 }}>
             De la lecture à la compréhension
           </p>
         </div>
 
-        <div style={{ position: 'relative', padding: '1.5rem 0' }}>
+        <div style={{ position: 'relative', padding: isFullscreen ? '1rem 0' : '1.5rem 0' }}>
           <div style={{
             position: 'absolute',
             left: '50%',
@@ -849,7 +867,7 @@ const App = () => {
             <div key={idx} style={{
               display: 'flex',
               alignItems: 'center',
-              marginBottom: window.innerWidth > 768 ? '3rem' : '2rem',
+              marginBottom: window.innerWidth > 768 ? (isFullscreen ? '2rem' : '3rem') : '2rem',
               position: 'relative',
               flexDirection: window.innerWidth > 768 ? (idx % 2 === 0 ? 'row' : 'row-reverse') : 'column'
             }}>
@@ -857,26 +875,26 @@ const App = () => {
                 width: window.innerWidth > 768 ? '45%' : '100%',
                 ...styles.card,
                 borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
+                padding: isFullscreen ? '1rem' : '1.5rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
                 marginBottom: window.innerWidth > 768 ? 0 : '1rem'
               }}>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
-                  marginBottom: '1rem'
+                  gap: isFullscreen ? '0.5rem' : '0.75rem',
+                  marginBottom: isFullscreen ? '0.75rem' : '1rem'
                 }}>
                   <div style={{
-                    width: '50px',
-                    height: '50px',
+                    width: isFullscreen ? '45px' : '50px',
+                    height: isFullscreen ? '45px' : '50px',
                     background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                     borderRadius: '12px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'white',
-                    fontSize: '1.5rem'
+                    fontSize: isFullscreen ? '1.25rem' : '1.5rem'
                   }}>
                     {item.icon}
                   </div>
@@ -904,7 +922,7 @@ const App = () => {
                   </div>
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+                  fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
                   fontWeight: 600,
                   color: '#0f172a',
                   marginBottom: '0.5rem'
@@ -912,7 +930,7 @@ const App = () => {
                   {item.title}
                 </h3>
                 <p style={{
-                  fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+                  fontSize: styles.fullscreenText.fontSize,
                   color: '#64748b',
                   lineHeight: 1.5
                 }}>
@@ -924,15 +942,15 @@ const App = () => {
                 position: window.innerWidth > 768 ? 'absolute' : 'relative',
                 left: window.innerWidth > 768 ? '50%' : 'auto',
                 transform: window.innerWidth > 768 ? 'translateX(-50%)' : 'none',
-                width: '40px',
-                height: '40px',
+                width: isFullscreen ? '35px' : '40px',
+                height: isFullscreen ? '35px' : '40px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem',
+                fontSize: isFullscreen ? '1.1rem' : '1.25rem',
                 fontWeight: 700,
                 zIndex: 1,
                 border: '3px solid white',
@@ -948,12 +966,11 @@ const App = () => {
   );
 
   const Slide6 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -961,7 +978,7 @@ const App = () => {
             4. Pourquoi le Web sémantique ?
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -969,12 +986,12 @@ const App = () => {
           </h2>
         </div>
 
-        <div style={{ marginBottom: '2rem' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
             fontWeight: 600,
             color: '#dc2626',
-            marginBottom: '1.5rem',
+            marginBottom: isFullscreen ? '1rem' : '1.5rem',
             display: 'flex',
             alignItems: 'center',
             gap: '0.75rem'
@@ -986,7 +1003,7 @@ const App = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem'
+            gap: isFullscreen ? '0.75rem' : '1rem'
           }}>
             {[
               {
@@ -1011,32 +1028,32 @@ const App = () => {
               <div key={idx} style={{
                 ...styles.card,
                 borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
+                padding: isFullscreen ? '1rem' : '1.5rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #fef2f2 100%)'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1rem',
+                  marginBottom: isFullscreen ? '0.75rem' : '1rem',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: isFullscreen ? '1.25rem' : '1.5rem'
                 }}>
                   {item.icon}
                 </div>
                 <h4 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a',
                   marginBottom: '0.5rem'
                 }}>
                   {item.title}
                 </h4>
-                <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+                <p style={{ color: '#64748b', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>
                   {item.description}
                 </p>
               </div>
@@ -1046,10 +1063,10 @@ const App = () => {
 
         <div>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
             fontWeight: 600,
             color: '#059669',
-            marginBottom: '1.5rem',
+            marginBottom: isFullscreen ? '1rem' : '1.5rem',
             display: 'flex',
             alignItems: 'center',
             gap: '0.75rem'
@@ -1061,7 +1078,7 @@ const App = () => {
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem'
+            gap: isFullscreen ? '0.75rem' : '1rem'
           }}>
             {[
               {
@@ -1086,32 +1103,32 @@ const App = () => {
               <div key={idx} style={{
                 ...styles.card,
                 borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
+                padding: isFullscreen ? '1rem' : '1.5rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1rem',
+                  marginBottom: isFullscreen ? '0.75rem' : '1rem',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: isFullscreen ? '1.25rem' : '1.5rem'
                 }}>
                   {item.icon}
                 </div>
                 <h4 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a',
                   marginBottom: '0.5rem'
                 }}>
                   {item.title}
                 </h4>
-                <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+                <p style={{ color: '#64748b', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>
                   {item.description}
                 </p>
               </div>
@@ -1123,12 +1140,11 @@ const App = () => {
   );
 
   const Slide7 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1140,20 +1156,20 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-          padding: '1.5rem',
-          marginBottom: '2rem',
+          padding: isFullscreen ? '1rem' : '1.5rem',
+          marginBottom: isFullscreen ? '1.5rem' : '2rem',
           border: '2px solid rgba(59, 130, 246, 0.2)'
         }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
             fontWeight: 600,
             color: '#1e40af',
-            marginBottom: '1rem'
+            marginBottom: isFullscreen ? '0.75rem' : '1rem'
           }}>
             Le principe fondamental
           </h3>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: isFullscreen ? styles.fullscreenSubtitle.fontSize : 'clamp(0.9rem, 2vw, 1.25rem)',
             lineHeight: 1.5,
             color: '#1e293b',
             fontWeight: 400
@@ -1165,7 +1181,7 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gap: isFullscreen ? '0.75rem' : '1rem'
         }}>
           {[
             {
@@ -1200,31 +1216,31 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               height: '100%',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: isFullscreen ? '0.5rem' : '0.75rem',
+                marginBottom: isFullscreen ? '0.75rem' : '1rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: isFullscreen ? '1.1rem' : '1.25rem'
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a'
                 }}>
@@ -1236,14 +1252,14 @@ const App = () => {
                 color: '#64748b',
                 marginBottom: '1rem',
                 lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                fontSize: styles.fullscreenText.fontSize
               }}>
                 {item.description}
               </p>
               
               <div style={{
                 background: `${item.color}10`,
-                padding: '1rem',
+                padding: isFullscreen ? '0.75rem' : '1rem',
                 borderRadius: '8px',
                 borderLeft: `3px solid ${item.color}`
               }}>
@@ -1255,7 +1271,7 @@ const App = () => {
                 }}>
                   Exemple :
                 </div>
-                <div style={{ color: '#475569', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)', fontWeight: 400 }}>
+                <div style={{ color: '#475569', fontSize: styles.fullscreenText.fontSize, fontWeight: 400 }}>
                   {item.example}
                 </div>
               </div>
@@ -1267,12 +1283,11 @@ const App = () => {
   );
 
   const Slide8 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1280,7 +1295,7 @@ const App = () => {
             6. Exemples Concrets
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1290,38 +1305,38 @@ const App = () => {
 
         <div style={{
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          padding: '1.5rem',
+          padding: isFullscreen ? '1rem' : '1.5rem',
           borderRadius: '12px',
-          marginBottom: '2rem',
+          marginBottom: isFullscreen ? '1.5rem' : '2rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '1rem',
+          gap: isFullscreen ? '0.75rem' : '1rem',
           border: '2px solid rgba(245, 158, 11, 0.2)'
         }}>
           <div style={{
-            width: '50px',
-            height: '50px',
+            width: isFullscreen ? '45px' : '50px',
+            height: isFullscreen ? '45px' : '50px',
             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
             borderRadius: '10px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: 'white',
-            fontSize: '1.5rem',
+            fontSize: isFullscreen ? '1.25rem' : '1.5rem',
             flexShrink: 0
           }}>
             <FaLightbulb />
           </div>
           <div>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
               fontWeight: 600,
               color: '#92400e',
               marginBottom: '0.25rem'
             }}>
               EXEMPLE CONCRET : Recherche intelligente dans le cinéma
             </h3>
-            <p style={{ color: '#92400e', margin: 0, fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 400 }}>
+            <p style={{ color: '#92400e', margin: 0, fontSize: styles.fullscreenText.fontSize, fontWeight: 400 }}>
               Comment le Web sémantique transforme une recherche simple en résultats riches et contextuels
             </p>
           </div>
@@ -1330,7 +1345,7 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gap: isFullscreen ? '0.75rem' : '1rem'
         }}>
           {[
             {
@@ -1361,12 +1376,12 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               height: '100%',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
-                fontSize: '3rem',
+                fontSize: isFullscreen ? '2.5rem' : '3rem',
                 fontWeight: 700,
                 color: `${item.color}15`,
                 marginBottom: '0.5rem',
@@ -1378,24 +1393,24 @@ const App = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: isFullscreen ? '0.5rem' : '0.75rem',
+                marginBottom: isFullscreen ? '0.75rem' : '1rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: isFullscreen ? '1.1rem' : '1.25rem'
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a'
                 }}>
@@ -1407,7 +1422,7 @@ const App = () => {
                 color: '#64748b',
                 lineHeight: 1.5,
                 marginBottom: '1rem',
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                fontSize: styles.fullscreenText.fontSize
               }}>
                 {item.description}
               </p>
@@ -1415,7 +1430,7 @@ const App = () => {
               {item.showExample && (
                 <div style={{
                   background: '#f8fafc',
-                  padding: '1rem',
+                  padding: isFullscreen ? '0.75rem' : '1rem',
                   borderRadius: '8px',
                   border: '1px solid #e2e8f0'
                 }}>
@@ -1444,7 +1459,7 @@ const App = () => {
                     margin: '0.75rem 0',
                     color: '#3b82f6',
                     fontWeight: 600,
-                    fontSize: '1rem'
+                    fontSize: isFullscreen ? '0.9rem' : '1rem'
                   }}>
                     ↓ Web Sémantique
                   </div>
@@ -1458,7 +1473,7 @@ const App = () => {
                   </div>
                   <div style={{
                     background: 'white',
-                    padding: '1rem',
+                    padding: isFullscreen ? '0.75rem' : '1rem',
                     borderRadius: '6px',
                     border: '2px solid #e5e7eb'
                   }}>
@@ -1482,12 +1497,11 @@ const App = () => {
   );
 
   const Slide9 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1495,7 +1509,7 @@ const App = () => {
             7. Technologies : La Pile Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1503,7 +1517,7 @@ const App = () => {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gap: isFullscreen ? '1rem' : '1.5rem' }}>
           {[
             {
               title: 'Couche d\'Interrogation & Ontologie',
@@ -1534,30 +1548,30 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderLeft: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1rem',
-                marginBottom: '1.5rem'
+                gap: isFullscreen ? '0.75rem' : '1rem',
+                marginBottom: isFullscreen ? '1rem' : '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: isFullscreen ? '1.25rem' : '1.5rem'
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a'
                 }}>
@@ -1584,14 +1598,14 @@ const App = () => {
                         background: item.color,
                         borderRadius: '50%'
                       }}></div>
-                      <span style={{ color: '#475569', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{tech}</span>
+                      <span style={{ color: '#475569', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>{tech}</span>
                     </li>
                   ))}
                 </ul>
               )}
               
               {item.description && (
-                <div style={{ color: '#475569', lineHeight: 1.5, fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)' }}>
+                <div style={{ color: '#475569', lineHeight: 1.5, fontSize: styles.fullscreenText.fontSize }}>
                   <p>Rôle : {item.description}</p>
                 </div>
               )}
@@ -1600,11 +1614,11 @@ const App = () => {
                 <div style={{
                   background: '#0f172a',
                   color: '#e2e8f0',
-                  padding: '1rem',
+                  padding: isFullscreen ? '0.75rem' : '1rem',
                   borderRadius: '8px',
                   marginTop: '1rem',
                   fontFamily: 'monospace',
-                  fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)'
+                  fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.8rem, 1.8vw, 0.9rem)'
                 }}>
                   {item.example}
                 </div>
@@ -1617,12 +1631,11 @@ const App = () => {
   );
 
   const Slide10 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1630,7 +1643,7 @@ const App = () => {
             8. Applications Concrètes
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1638,7 +1651,7 @@ const App = () => {
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gap: isFullscreen ? '1rem' : '1.5rem' }}>
           {[
             {
               title: 'Moteurs de Recherche (Knowledge Graph)',
@@ -1677,38 +1690,38 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1rem',
-                marginBottom: '1.5rem'
+                gap: isFullscreen ? '0.75rem' : '1rem',
+                marginBottom: isFullscreen ? '1rem' : '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: isFullscreen ? '1.25rem' : '1.5rem'
                 }}>
                   {item.icon}
                 </div>
                 <div>
                   <h3 style={{
-                    fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                    fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                     fontWeight: 600,
                     color: '#0f172a',
                     marginBottom: '0.25rem'
                   }}>
                     {item.title}
                   </h3>
-                  <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 400 }}>{item.description}</p>
+                  <p style={{ color: '#64748b', fontSize: styles.fullscreenText.fontSize, fontWeight: 400 }}>{item.description}</p>
                 </div>
               </div>
               
@@ -1730,7 +1743,7 @@ const App = () => {
                       background: item.color,
                       borderRadius: '50%'
                     }}></div>
-                    <span style={{ color: '#475569', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{point}</span>
+                    <span style={{ color: '#475569', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>{point}</span>
                   </li>
                 ))}
               </ul>
@@ -1742,12 +1755,11 @@ const App = () => {
   );
 
   const Slide11 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1755,7 +1767,7 @@ const App = () => {
             9. Les Défis du Web Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1766,7 +1778,7 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gap: isFullscreen ? '0.75rem' : '1rem'
         }}>
           {[
             {
@@ -1797,30 +1809,30 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: isFullscreen ? '0.5rem' : '0.75rem',
+                marginBottom: isFullscreen ? '0.75rem' : '1rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: isFullscreen ? '1.1rem' : '1.25rem'
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a'
                 }}>
@@ -1831,7 +1843,7 @@ const App = () => {
               <p style={{
                 color: '#64748b',
                 lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                fontSize: styles.fullscreenText.fontSize
               }}>
                 {item.description}
               </p>
@@ -1843,12 +1855,11 @@ const App = () => {
   );
 
   const Slide12 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1856,7 +1867,7 @@ const App = () => {
             10. Les Limites Actuelles
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1867,7 +1878,7 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gap: isFullscreen ? '0.75rem' : '1rem'
         }}>
           {[
             {
@@ -1898,30 +1909,30 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: isFullscreen ? '0.5rem' : '0.75rem',
+                marginBottom: isFullscreen ? '0.75rem' : '1rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: isFullscreen ? '45px' : '50px',
+                  height: isFullscreen ? '45px' : '50px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                   borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: isFullscreen ? '1.1rem' : '1.25rem'
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                  fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                   fontWeight: 600,
                   color: '#0f172a'
                 }}>
@@ -1932,7 +1943,7 @@ const App = () => {
               <p style={{
                 color: '#64748b',
                 lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                fontSize: styles.fullscreenText.fontSize
               }}>
                 {item.description}
               </p>
@@ -1944,12 +1955,18 @@ const App = () => {
   );
 
   const Slide13 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+    <div style={styles.slide()}>
+      <div style={{ 
+        padding: isFullscreen ? '0.75rem' : '1rem', 
+        flex: 1, 
+        overflow: 'auto', 
+        display: 'flex', 
+        flexDirection: 'column', 
+        justifyContent: 'center' 
+      }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem', textAlign: 'center' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -1957,7 +1974,7 @@ const App = () => {
             11. Conclusion
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -1968,12 +1985,12 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-          padding: '1.5rem',
-          marginBottom: '2rem',
+          padding: isFullscreen ? '1rem' : '1.5rem',
+          marginBottom: isFullscreen ? '1.5rem' : '2rem',
           border: '2px solid rgba(59, 130, 246, 0.2)'
         }}>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: isFullscreen ? styles.fullscreenSubtitle.fontSize : 'clamp(0.9rem, 2vw, 1.25rem)',
             lineHeight: 1.5,
             color: '#1e293b',
             marginBottom: '1rem',
@@ -1983,7 +2000,7 @@ const App = () => {
             Malgré ses défis, il ouvre des perspectives révolutionnaires.
           </p>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: isFullscreen ? styles.fullscreenSubtitle.fontSize : 'clamp(0.9rem, 2vw, 1.25rem)',
             lineHeight: 1.5,
             color: '#1e293b',
             fontWeight: 400
@@ -1996,8 +2013,8 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1rem',
-          marginBottom: '2rem'
+          gap: isFullscreen ? '0.75rem' : '1rem',
+          marginBottom: isFullscreen ? '1.5rem' : '2rem'
         }}>
           {[
             {
@@ -2021,33 +2038,33 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              padding: '1.5rem',
+              padding: isFullscreen ? '1rem' : '1.5rem',
               textAlign: 'center',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
-                width: '70px',
-                height: '70px',
+                width: isFullscreen ? '60px' : '70px',
+                height: isFullscreen ? '60px' : '70px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 1rem',
+                margin: '0 auto 0.75rem',
                 color: 'white',
-                fontSize: '1.75rem'
+                fontSize: isFullscreen ? '1.5rem' : '1.75rem'
               }}>
                 {item.icon}
               </div>
               <h3 style={{
-                fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+                fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
                 fontWeight: 600,
                 color: '#0f172a',
                 marginBottom: '0.5rem'
               }}>
                 {item.title}
               </h3>
-              <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+              <p style={{ color: '#64748b', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>
                 {item.description}
               </p>
             </div>
@@ -2057,18 +2074,18 @@ const App = () => {
         <div style={{
           background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
           color: 'white',
-          padding: '1.5rem',
+          padding: isFullscreen ? '1rem' : '1.5rem',
           borderRadius: '12px'
         }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
+            fontSize: isFullscreen ? 'clamp(1rem, 2.2vw, 1.25rem)' : 'clamp(1.1rem, 2.5vw, 1.5rem)',
             fontWeight: 600,
             marginBottom: '0.75rem'
           }}>
             Merci de votre attention !
           </h3>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: isFullscreen ? styles.fullscreenSubtitle.fontSize : 'clamp(0.9rem, 2vw, 1.25rem)',
             opacity: 0.95,
             margin: 0,
             fontWeight: 400
@@ -2083,12 +2100,11 @@ const App = () => {
   );
 
   const Slide14 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+    <div style={styles.slide('calc(100vh - 100px)')}>
+      <div style={{ padding: isFullscreen ? '0.75rem' : '1rem', flex: 1, overflow: 'auto' }}>
+        <div style={{ marginBottom: isFullscreen ? '1.5rem' : '2rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            ...styles.fullscreenTitle,
             ...styles.gradientText,
             marginBottom: '0.5rem',
             letterSpacing: '-0.02em'
@@ -2096,7 +2112,7 @@ const App = () => {
             12. Démonstration Pratique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            ...styles.fullscreenSubtitle,
             color: '#64748b',
             fontWeight: 400
           }}>
@@ -2107,8 +2123,8 @@ const App = () => {
         <div style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '1rem',
-          marginBottom: '1.5rem'
+          gap: isFullscreen ? '0.75rem' : '1rem',
+          marginBottom: isFullscreen ? '1rem' : '1.5rem'
         }}>
           <div style={{
             ...styles.card,
@@ -2116,10 +2132,10 @@ const App = () => {
             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
               fontWeight: 600,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem',
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem'
@@ -2131,27 +2147,27 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               borderRadius: '8px',
-              marginBottom: '1rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)'
             }}>
               pip install rdflib<br />
               from rdflib import Graph, Namespace, RDF, Literal
             </div>
             
-            <p style={{ color: '#64748b', marginBottom: '0.75rem', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 500 }}>
+            <p style={{ color: '#64748b', marginBottom: '0.75rem', fontSize: styles.fullscreenText.fontSize, fontWeight: 500 }}>
               Création du graphe RDF :
             </p>
             
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               borderRadius: '8px',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)'
             }}>
               g = Graph()<br />
               EX = Namespace("http://example.org/")<br />
@@ -2169,10 +2185,10 @@ const App = () => {
             background: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
               fontWeight: 600,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem',
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem'
@@ -2181,7 +2197,7 @@ const App = () => {
               Ajout des Triple RDF
             </h3>
             
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: isFullscreen ? '0.75rem' : '1rem' }}>
               {[
                 { s: '<Ahmed>', p: 'rdf:type', o: '<Etudiant>' },
                 { s: '<Sara>', p: 'rdf:type', o: '<Etudiant>' },
@@ -2193,11 +2209,11 @@ const App = () => {
                   alignItems: 'center',
                   gap: '0.5rem',
                   marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  padding: isFullscreen ? '0.5rem' : '0.75rem',
                   background: '#faf5ff',
                   borderRadius: '6px',
                   fontFamily: 'monospace',
-                  fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)',
+                  fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)',
                   border: '1px solid #e9d5ff'
                 }}>
                   <span style={{ color: '#dc2626', fontWeight: 500 }}>{triplet.s}</span>
@@ -2210,10 +2226,10 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               borderRadius: '8px',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)'
             }}>
               # Code Python correspondant<br />
               g.add((etudiant1, RDF.type, EX.Etudiant))<br />
@@ -2229,10 +2245,10 @@ const App = () => {
             background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+              fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
               fontWeight: 600,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem',
               display: 'flex',
               alignItems: 'center',
               gap: '0.75rem'
@@ -2244,11 +2260,11 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               borderRadius: '8px',
-              marginBottom: '1rem',
+              marginBottom: isFullscreen ? '0.75rem' : '1rem',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)'
             }}>
               PREFIX ex: &lt;http://example.org/&gt;<br /><br />
               SELECT ?etudiant<br />
@@ -2259,7 +2275,7 @@ const App = () => {
             
             <div>
               <h4 style={{
-                fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
+                fontSize: isFullscreen ? 'clamp(0.85rem, 1.8vw, 0.95rem)' : 'clamp(0.9rem, 2vw, 1.1rem)',
                 fontWeight: 600,
                 color: '#0f172a',
                 marginBottom: '0.75rem'
@@ -2278,16 +2294,16 @@ const App = () => {
                   background: '#f8fafc',
                   borderBottom: '2px solid #e2e8f0'
                 }}>
-                  <div style={{ padding: '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Étudiant</div>
-                  <div style={{ padding: '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>URI</div>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: styles.fullscreenText.fontSize }}>Étudiant</div>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: styles.fullscreenText.fontSize }}>URI</div>
                 </div>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 2fr',
                   borderBottom: '1px solid #e2e8f0'
                 }}>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontWeight: 500, fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Ahmed</div>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', color: '#475569', fontWeight: 500, fontSize: styles.fullscreenText.fontSize }}>Ahmed</div>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
                     http://example.org/Ahmed
                   </div>
                 </div>
@@ -2295,8 +2311,8 @@ const App = () => {
                   display: 'grid',
                   gridTemplateColumns: '1fr 2fr'
                 }}>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontWeight: 500, fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Sara</div>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', color: '#475569', fontWeight: 500, fontSize: styles.fullscreenText.fontSize }}>Sara</div>
+                  <div style={{ padding: isFullscreen ? '0.5rem' : '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: isFullscreen ? 'clamp(0.7rem, 1.6vw, 0.8rem)' : 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
                     http://example.org/Sara
                   </div>
                 </div>
@@ -2308,14 +2324,14 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          padding: '1.5rem',
+          padding: isFullscreen ? '1rem' : '1.5rem',
           border: '2px solid rgba(245, 158, 11, 0.2)'
         }}>
           <h4 style={{
-            fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
+            fontSize: isFullscreen ? 'clamp(0.9rem, 2vw, 1.1rem)' : 'clamp(1rem, 2.2vw, 1.25rem)',
             fontWeight: 600,
             color: '#92400e',
-            marginBottom: '1rem'
+            marginBottom: isFullscreen ? '0.75rem' : '1rem'
           }}>
             Ce que cette démonstration illustre :
           </h4>
@@ -2328,15 +2344,15 @@ const App = () => {
             <div key={idx} style={{
               display: 'flex',
               alignItems: 'flex-start',
-              gap: '1rem',
+              gap: isFullscreen ? '0.75rem' : '1rem',
               marginBottom: '0.75rem',
-              padding: '1rem',
+              padding: isFullscreen ? '0.75rem' : '1rem',
               background: 'rgba(255, 255, 255, 0.6)',
               borderRadius: '8px',
               border: '1px solid rgba(245, 158, 11, 0.2)'
             }}>
-              <FaCheckCircle color="#10b981" size={20} style={{ marginTop: '2px', flexShrink: 0 }} />
-              <span style={{ color: '#92400e', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+              <FaCheckCircle color="#10b981" size={isFullscreen ? 18 : 20} style={{ marginTop: '2px', flexShrink: 0 }} />
+              <span style={{ color: '#92400e', fontSize: styles.fullscreenText.fontSize, lineHeight: 1.5 }}>{item}</span>
             </div>
           ))}
         </div>
