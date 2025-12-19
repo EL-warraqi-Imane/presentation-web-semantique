@@ -6,40 +6,42 @@ import {
   FaTags, FaLink, FaCode, FaDatabase, FaCogs,
   FaLightbulb, FaFilm, FaStar, FaCheckCircle,
   FaExclamationTriangle, FaUsers, FaInfinity, FaLanguage,
-  FaMoneyBillWave, FaTachometerAlt, FaPuzzlePiece, FaRocket,
-  FaListUl
+  FaMoneyBillWave, FaTachometerAlt, FaPuzzlePiece, FaRocket
 } from "react-icons/fa";
 import { FaExpand, FaCompress } from "react-icons/fa6";
+
 
 const App = () => {
   const [currentSlide, setCurrentSlide] = useState(1);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const totalSlides = 14;
 
+  // Fonction pour entrer en plein écran (avec support des préfixes navigateurs)
   const enterFullscreen = useCallback(() => {
     const element = document.documentElement;
     
     if (element.requestFullscreen) {
       element.requestFullscreen();
-    } else if (element.mozRequestFullScreen) {
+    } else if (element.mozRequestFullScreen) { // Firefox
       element.mozRequestFullScreen();
-    } else if (element.webkitRequestFullscreen) {
+    } else if (element.webkitRequestFullscreen) { // Chrome, Safari, Opera
       element.webkitRequestFullscreen();
-    } else if (element.msRequestFullscreen) {
+    } else if (element.msRequestFullscreen) { // IE/Edge
       element.msRequestFullscreen();
     }
     
     setIsFullscreen(true);
   }, []);
 
+  // Fonction pour quitter le plein écran (avec support des préfixes navigateurs)
   const exitFullscreen = useCallback(() => {
     if (document.exitFullscreen) {
       document.exitFullscreen();
-    } else if (document.mozCancelFullScreen) {
+    } else if (document.mozCancelFullScreen) { // Firefox
       document.mozCancelFullScreen();
-    } else if (document.webkitExitFullscreen) {
+    } else if (document.webkitExitFullscreen) { // Chrome, Safari, Opera
       document.webkitExitFullscreen();
-    } else if (document.msExitFullscreen) {
+    } else if (document.msExitFullscreen) { // IE/Edge
       document.msExitFullscreen();
     }
     
@@ -63,44 +65,39 @@ const App = () => {
       background: 'rgba(15, 23, 42, 0.95)',
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid rgba(148, 163, 184, 0.1)',
-      padding: '0.75rem 1.5rem',
-      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)',
-      transition: 'transform 0.3s ease',
-      transform: isFullscreen ? 'translateY(-100%)' : 'translateY(0)'
+      padding: '1rem 2rem',
+      boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.3)'
     },
     slideContainer: {
-      paddingTop: isFullscreen ? '50px' : '90px',
-      paddingBottom: isFullscreen ? '50px' : '90px',
+      paddingTop: '100px',
+      paddingBottom: '100px',
       maxWidth: '1400px',
       margin: '0 auto',
-      transition: 'padding 0.3s ease',
-      padding: '90px 1rem 90px 1rem'
+      transition: 'transform 0.3s ease'
     },
     slide: {
       background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
       borderRadius: '24px',
       boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)',
-      padding: '2rem',
-      margin: '0 auto',
-      minHeight: 'calc(100vh - 180px)',
+      padding: '3.5rem',
+      margin: '0 2rem',
+      minHeight: 'calc(100vh - 220px)',
       position: 'relative',
       border: '1px solid rgba(148, 163, 184, 0.1)',
-      overflow: 'hidden',
-      display: 'flex',
-      flexDirection: 'column'
+      overflow: 'auto'
     },
     button: {
       background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
       color: 'white',
       border: 'none',
-      padding: '0.75rem 1.5rem',
+      padding: '0.875rem 1.75rem',
       borderRadius: '12px',
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
-      gap: '0.5rem',
+      gap: '0.75rem',
       fontWeight: 600,
-      fontSize: '0.9rem',
+      fontSize: '0.95rem',
       transition: 'all 0.3s ease',
       boxShadow: '0 4px 6px -1px rgba(59, 130, 246, 0.3)'
     },
@@ -113,7 +110,7 @@ const App = () => {
     card: {
       background: 'white',
       borderRadius: '16px',
-      padding: '1.25rem',
+      padding: '2rem',
       boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05)',
       transition: 'all 0.3s ease',
       border: '1px solid rgba(226, 232, 240, 0.8)'
@@ -129,6 +126,7 @@ const App = () => {
   }, []);
 
   const toggleFullscreen = useCallback(() => {
+    // Vérifier si nous sommes déjà en plein écran
     const fullscreenElement = 
       document.fullscreenElement ||
       document.mozFullScreenElement ||
@@ -169,6 +167,7 @@ const App = () => {
       }
     };
 
+    // Gérer les événements de changement de plein écran
     const handleFullscreenChange = () => {
       const fullscreenElement = 
         document.fullscreenElement ||
@@ -180,6 +179,8 @@ const App = () => {
     };
 
     document.addEventListener('keydown', handleKeyDown);
+    
+    // Écouter les différents événements de plein écran selon le navigateur
     document.addEventListener('fullscreenchange', handleFullscreenChange);
     document.addEventListener('mozfullscreenchange', handleFullscreenChange);
     document.addEventListener('webkitfullscreenchange', handleFullscreenChange);
@@ -196,78 +197,80 @@ const App = () => {
 
   const Slide1 = () => (
     <div style={styles.slide}>
-      <div style={{ textAlign: 'center', padding: '1.5rem', flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+      <div style={{ textAlign: 'center', padding: '3rem 2rem' }}>
         <div style={{
           position: 'absolute',
           top: '50%',
           left: '50%',
           transform: 'translate(-50%, -50%)',
-          width: '400px',
-          height: '400px',
+          width: '500px',
+          height: '500px',
           background: 'radial-gradient(circle, rgba(59, 130, 246, 0.1) 0%, transparent 70%)',
           pointerEvents: 'none'
         }}></div>
 
         <div style={{ position: 'relative', zIndex: 1 }}>
           <h1 style={{ 
-            fontSize: 'clamp(2rem, 6vw, 4rem)', 
-            fontWeight: 700,
+            fontSize: '5rem', 
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.75rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em',
             lineHeight: 1.1
           }}>
             Web Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(1rem, 2.5vw, 1.5rem)',
+            fontSize: '2rem',
             color: '#64748b',
             fontWeight: 500,
-            marginBottom: '1.5rem'
+            marginBottom: '3rem'
           }}>
             Définition, Origine, Objectifs et Technologies
           </h2>
 
           <div style={{
-            width: '100px',
-            height: '4px',
+            width: '120px',
+            height: '5px',
             background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-            margin: '1.5rem auto 2rem',
+            margin: '2rem auto 4rem',
             borderRadius: '10px'
           }}></div>
 
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
-            gap: '0.75rem',
-            maxWidth: '1000px',
-            margin: '0 auto 2rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+            gap: '1.25rem',
+            maxWidth: '1100px',
+            margin: '0 auto 4rem'
           }}>
             {['Abdellah BOULIDAM', 'Youness BOUMLIK', 'Oumaima EL ALAMI', 'Zakaria EL HOUARI', 'Imane EL WARRAQI'].map((name, idx) => (
               <div key={idx} style={{
                 ...styles.card,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                padding: '0.75rem',
+                gap: '1rem',
+                padding: '1.25rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%)',
                 transition: 'transform 0.3s ease'
-              }}>
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-5px)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+              >
                 <div style={{
-                  width: '36px',
-                  height: '36px',
+                  width: '48px',
+                  height: '48px',
                   background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-                  borderRadius: '8px',
+                  borderRadius: '12px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '0.9rem',
-                  flexShrink: 0
+                  fontSize: '1.25rem'
                 }}>
                   <FaUser />
                 </div>
-                <span style={{ fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.7rem, 1.8vw, 0.85rem)' }}>{name}</span>
+                <span style={{ fontWeight: 600, color: '#1e293b', fontSize: '0.95rem' }}>{name}</span>
               </div>
             ))}
           </div>
@@ -275,29 +278,29 @@ const App = () => {
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.75rem',
+            gap: '1.5rem',
             background: 'linear-gradient(135deg, #f0f9ff 0%, #f5f3ff 100%)',
-            padding: '1rem 1.5rem',
-            borderRadius: '16px',
+            padding: '1.5rem 3rem',
+            borderRadius: '20px',
             boxShadow: '0 10px 15px -3px rgba(59, 130, 246, 0.1)',
             border: '1px solid rgba(59, 130, 246, 0.1)'
           }}>
             <div style={{
-              width: '45px',
-              height: '45px',
+              width: '56px',
+              height: '56px',
               background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
-              borderRadius: '10px',
+              borderRadius: '14px',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
               color: 'white',
-              fontSize: '1.1rem'
+              fontSize: '1.5rem'
             }}>
               <FaChalkboardTeacher />
             </div>
             <div style={{ textAlign: 'left' }}>
-              <div style={{ fontSize: '0.7rem', color: '#64748b', marginBottom: '0.25rem' }}>Encadré par</div>
-              <div style={{ fontSize: 'clamp(0.9rem, 2vw, 1.1rem)', fontWeight: 600, color: '#0f172a' }}>
+              <div style={{ fontSize: '0.875rem', color: '#64748b', marginBottom: '0.25rem' }}>Encadré par</div>
+              <div style={{ fontSize: '1.25rem', fontWeight: 700, color: '#0f172a' }}>
                 Mme Nidal LAMGHARI
               </div>
             </div>
@@ -309,159 +312,26 @@ const App = () => {
 
   const Slide2 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'hidden' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <div style={{
             display: 'inline-block',
             background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
             color: '#1e40af',
-            padding: '0.4rem 1.25rem',
+            padding: '0.5rem 1.5rem',
             borderRadius: '50px',
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            marginBottom: '1rem',
-            border: '2px solid rgba(59, 130, 246, 0.2)'
-          }}>
-            Plan de la Présentation
-          </div>
-          <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
+            fontSize: '0.875rem',
             fontWeight: 700,
-            color: '#0f172a',
-            marginBottom: '0.5rem',
-            letterSpacing: '-0.02em'
-          }}>
-            Plan de la Présentation
-          </h1>
-          <div style={{
-            width: '60px',
-            height: '3px',
-            background: 'linear-gradient(to right, #3b82f6, #8b5cf6)',
-            margin: '1rem auto',
-            borderRadius: '10px'
-          }}></div>
-        </div>
-
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-          gap: '1rem',
-          overflowY: 'auto',
-          maxHeight: 'calc(100vh - 250px)',
-          padding: '0.5rem'
-        }}>
-          {[
-            { num: '01', title: 'Introduction', icon: <FaLightbulb />, color: '#3b82f6' },
-            { num: '02', title: 'Définition et comparaison', icon: <FaProjectDiagram />, color: '#8b5cf6' },
-            { num: '03', title: 'Origine du Web sémantique', icon: <FaGlobe />, color: '#10b981' },
-            { num: '04', title: 'Évolution du Web', icon: <FaRocket />, color: '#f59e0b' },
-            { num: '05', title: 'Pourquoi le Web sémantique ?', icon: <FaExclamationTriangle />, color: '#ef4444' },
-            { num: '06', title: 'Principes et concepts clés', icon: <FaBrain />, color: '#6366f1' },
-            { num: '07', title: 'Exemples Concrets', icon: <FaFilm />, color: '#ec4899' },
-            { num: '08', title: 'Technologies', icon: <FaCode />, color: '#14b8a6' },
-            { num: '09', title: 'Applications Concrètes', icon: <FaSearch />, color: '#8b5cf6' },
-            { num: '10', title: 'Les Défis', icon: <FaPuzzlePiece />, color: '#f97316' },
-            { num: '11', title: 'Les Limites Actuelles', icon: <FaExclamationTriangle />, color: '#dc2626' },
-            { num: '12', title: 'Conclusion', icon: <FaCheckCircle />, color: '#10b981' },
-            { num: '13', title: 'Démonstration Pratique', icon: <FaCode />, color: '#3b82f6' }
-          ].map((item, idx) => (
-            <div key={idx} style={{
-              ...styles.card,
-              borderLeft: `4px solid ${item.color}`,
-              padding: '1rem',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-              transition: 'transform 0.3s ease',
-              cursor: 'pointer'
-            }}
-            onClick={() => setCurrentSlide(idx + 3)}>
-              <div style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '0.75rem'
-              }}>
-                <div style={{
-                  width: '45px',
-                  height: '45px',
-                  background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '10px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  color: 'white',
-                  fontSize: '1rem',
-                  flexShrink: 0,
-                  boxShadow: `0 5px 15px -5px ${item.color}60`
-                }}>
-                  {item.icon}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{
-                    fontSize: '0.7rem',
-                    fontWeight: 600,
-                    color: item.color,
-                    marginBottom: '0.25rem',
-                    letterSpacing: '0.05em'
-                  }}>
-                    {item.num}
-                  </div>
-                  <h3 style={{
-                    fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)',
-                    fontWeight: 600,
-                    color: '#0f172a',
-                    margin: 0,
-                    lineHeight: 1.3
-                  }}>
-                    {item.title}
-                  </h3>
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div style={{
-          marginTop: '1.5rem',
-          textAlign: 'center',
-          padding: '1rem',
-          background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          borderRadius: '12px',
-          border: '2px solid rgba(245, 158, 11, 0.2)'
-        }}>
-          <p style={{
-            fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
-            color: '#92400e',
-            margin: 0,
-            fontWeight: 500
-          }}>
-            💡 Cliquez sur une section pour y accéder directement
-          </p>
-        </div>
-      </div>
-    </div>
-  );
-
-  const Slide3 = () => (
-    <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <div style={{
-            display: 'inline-block',
-            background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-            color: '#1e40af',
-            padding: '0.4rem 1.25rem',
-            borderRadius: '50px',
-            fontSize: '0.8rem',
-            fontWeight: 600,
-            marginBottom: '1rem',
+            marginBottom: '1.5rem',
             border: '2px solid rgba(59, 130, 246, 0.2)'
           }}>
             1. Introduction
           </div>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             color: '#0f172a',
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
             Introduction générale
@@ -471,25 +341,26 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-          borderLeft: '4px solid #3b82f6',
-          marginBottom: '2rem',
-          padding: '1.5rem'
+          borderLeft: '6px solid #3b82f6',
+          marginBottom: '3rem',
+          padding: '2.5rem'
         }}>
           <p style={{
-            fontSize: 'clamp(1rem, 2.2vw, 1.5rem)',
-            lineHeight: 1.5,
+            fontSize: '1.75rem',
+            lineHeight: 1.6,
             color: '#1e293b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
-            Le Web sémantique rend les informations compréhensibles par les machines grâce à des métadonnées.
+            Le <strong style={{ color: '#3b82f6', fontWeight: 700 }}>Web sémantique</strong> rend les informations compréhensibles par les machines grâce à des{' '}
+            <strong style={{ color: '#8b5cf6', fontWeight: 700 }}>métadonnées</strong>.
           </p>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-          gap: '1rem',
-          marginBottom: '2rem'
+          gridTemplateColumns: 'repeat(2, 1fr)',
+          gap: '2rem',
+          marginBottom: '3rem'
         }}>
           {[
             {
@@ -508,32 +379,37 @@ const App = () => {
             <div key={idx} style={{
               ...styles.card,
               textAlign: 'center',
-              padding: '1.5rem',
-              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
-            }}>
+              padding: '2.5rem',
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+              transition: 'transform 0.3s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-8px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
               <div style={{
-                width: '60px',
-                height: '60px',
+                width: '80px',
+                height: '80px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                borderRadius: '14px',
+                borderRadius: '20px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 1rem',
+                margin: '0 auto 1.5rem',
                 color: 'white',
-                fontSize: '1.5rem'
+                fontSize: '2rem',
+                boxShadow: `0 10px 25px -5px ${item.color}40`
               }}>
                 {item.icon}
               </div>
               <h3 style={{
-                fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                fontWeight: 600,
-                marginBottom: '0.5rem',
+                fontSize: '1.5rem',
+                fontWeight: 700,
+                marginBottom: '0.75rem',
                 color: '#0f172a'
               }}>
                 {item.title}
               </h3>
-              <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+              <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6 }}>
                 {item.description}
               </p>
             </div>
@@ -554,35 +430,40 @@ const App = () => {
             <li key={idx} style={{
               display: 'flex',
               alignItems: 'flex-start',
-              marginBottom: '0.75rem',
-              padding: '1rem',
+              marginBottom: '1.25rem',
+              padding: '1.5rem',
               background: idx === 3 ? 'linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%)' : '#f8fafc',
-              borderRadius: '10px',
-              border: idx === 3 ? '2px solid #10b981' : '1px solid #e2e8f0'
-            }}>
+              borderRadius: '12px',
+              border: idx === 3 ? '2px solid #10b981' : '1px solid #e2e8f0',
+              transition: 'transform 0.3s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateX(10px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateX(0)'}
+            >
               <div style={{
-                width: '24px',
-                height: '24px',
+                width: '32px',
+                height: '32px',
                 background: idx === 3 ? 
                   'linear-gradient(135deg, #10b981 0%, #059669 100%)' :
                   'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                borderRadius: '6px',
+                borderRadius: '10px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginRight: '0.75rem',
+                marginRight: '1.25rem',
                 flexShrink: 0,
                 color: 'white',
-                fontSize: '0.7rem',
-                fontWeight: 600
+                fontSize: '0.875rem',
+                fontWeight: 700,
+                boxShadow: idx === 3 ? '0 4px 10px rgba(16, 185, 129, 0.3)' : '0 4px 10px rgba(59, 130, 246, 0.3)'
               }}>
                 {idx === 3 ? '✓' : idx + 1}
               </div>
               <span style={{
-                fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+                fontSize: '1.2rem',
                 color: idx === 3 ? '#065f46' : '#334155',
-                fontWeight: idx === 3 ? 500 : 400,
-                lineHeight: 1.5
+                fontWeight: idx === 3 ? 600 : 400,
+                lineHeight: 1.6
               }}>
                 {item}
               </span>
@@ -593,58 +474,60 @@ const App = () => {
     </div>
   );
 
-  const Slide4 = () => (
+  const Slide3 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
             2. Définition et comparaison
           </h1>
-          <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.25rem)', color: '#64748b', fontWeight: 400 }}>
+          <p style={{ fontSize: '1.375rem', color: '#64748b', fontWeight: 500 }}>
             Comprendre la différence entre le Web classique et le Web sémantique
           </p>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: window.innerWidth > 768 ? '1fr auto 1fr' : '1fr',
-          gap: '1.5rem',
-          alignItems: 'stretch',
-          marginBottom: '2rem'
+          gridTemplateColumns: '1fr auto 1fr',
+          gap: '3rem',
+          alignItems: 'center',
+          marginBottom: '3rem'
         }}>
           <div style={{
             ...styles.card,
-            borderTop: '4px solid #3b82f6',
+            height: '100%',
+            borderTop: '6px solid #3b82f6',
             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)'
           }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1rem'
+              gap: '1rem',
+              marginBottom: '2rem'
             }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: '70px',
+                height: '70px',
                 background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
-                borderRadius: '12px',
+                borderRadius: '18px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem'
+                fontSize: '1.75rem',
+                boxShadow: '0 10px 25px -5px rgba(59, 130, 246, 0.4)'
               }}>
                 <FaGlobe />
               </div>
               <h2 style={{
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                fontWeight: 700,
+                fontSize: '2rem',
+                fontWeight: 800,
                 color: '#1e40af'
               }}>
                 Web Classique
@@ -665,72 +548,73 @@ const App = () => {
                 <li key={idx} style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  marginBottom: '1.25rem',
+                  padding: '1rem',
                   background: '#f0f9ff',
-                  borderRadius: '8px',
+                  borderRadius: '10px',
                   border: '1px solid #bfdbfe'
                 }}>
                   <div style={{
-                    width: '16px',
-                    height: '16px',
+                    width: '24px',
+                    height: '24px',
                     background: '#3b82f6',
-                    borderRadius: '4px',
-                    marginRight: '0.75rem',
+                    borderRadius: '8px',
+                    marginRight: '1rem',
                     flexShrink: 0,
                     marginTop: '2px'
                   }}></div>
-                  <span style={{ color: '#1e40af', fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: '#1e40af', fontSize: '1.05rem', lineHeight: 1.6 }}>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
 
-          {window.innerWidth > 768 && (
-            <div style={{
-              background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-              color: 'white',
-              width: '60px',
-              height: '60px',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '1.25rem',
-              fontWeight: 700,
-              alignSelf: 'center'
-            }}>
-              VS
-            </div>
-          )}
+          <div style={{
+            background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
+            color: 'white',
+            width: '90px',
+            height: '90px',
+            borderRadius: '50%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.75rem',
+            fontWeight: 800,
+            boxShadow: '0 15px 30px -5px rgba(245, 158, 11, 0.5)',
+            border: '4px solid rgba(255, 255, 255, 0.3)'
+          }}>
+            VS
+          </div>
 
           <div style={{
             ...styles.card,
-            borderTop: '4px solid #8b5cf6',
+            height: '100%',
+            borderTop: '6px solid #8b5cf6',
             background: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)'
           }}>
             <div style={{
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem',
-              marginBottom: '1rem'
+              gap: '1rem',
+              marginBottom: '2rem'
             }}>
               <div style={{
-                width: '50px',
-                height: '50px',
+                width: '70px',
+                height: '70px',
                 background: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)',
-                borderRadius: '12px',
+                borderRadius: '18px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem'
+                fontSize: '1.75rem',
+                boxShadow: '0 10px 25px -5px rgba(139, 92, 246, 0.4)'
               }}>
                 <FaProjectDiagram />
               </div>
               <h2 style={{
-                fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                fontWeight: 700,
+                fontSize: '2rem',
+                fontWeight: 800,
                 color: '#7c3aed'
               }}>
                 Web Sémantique
@@ -751,22 +635,22 @@ const App = () => {
                 <li key={idx} style={{
                   display: 'flex',
                   alignItems: 'flex-start',
-                  marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  marginBottom: '1.25rem',
+                  padding: '1rem',
                   background: '#faf5ff',
-                  borderRadius: '8px',
+                  borderRadius: '10px',
                   border: '1px solid #e9d5ff'
                 }}>
                   <div style={{
-                    width: '16px',
-                    height: '16px',
+                    width: '24px',
+                    height: '24px',
                     background: '#8b5cf6',
-                    borderRadius: '4px',
-                    marginRight: '0.75rem',
+                    borderRadius: '8px',
+                    marginRight: '1rem',
                     flexShrink: 0,
                     marginTop: '2px'
                   }}></div>
-                  <span style={{ color: '#7c3aed', fontSize: 'clamp(0.8rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+                  <span style={{ color: '#7c3aed', fontSize: '1.05rem', lineHeight: 1.6 }}>{item}</span>
                 </li>
               ))}
             </ul>
@@ -776,13 +660,135 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          borderLeft: '4px solid #f59e0b',
-          padding: '1.25rem'
+          borderLeft: '6px solid #f59e0b',
+          padding: '2rem'
         }}>
-          <p style={{ fontSize: 'clamp(0.85rem, 1.8vw, 1rem)', color: '#92400e', margin: 0, lineHeight: 1.5, fontWeight: 400 }}>
-            L\'idée principale : Structurer les données de manière intelligente afin que les ordinateurs puissent les interpréter, 
-            les relier et les exploiter automatiquement.
+          <p style={{ fontSize: '1.2rem', color: '#92400e', margin: 0, lineHeight: 1.7, fontWeight: 500 }}>
+            <strong style={{ fontWeight: 700 }}>L\'idée principale :</strong> Structurer les données de manière intelligente afin que les ordinateurs puissent les interpréter, 
+            les relier et les exploiter automatiquement. Contrairement au Web traditionnel, le Web sémantique repose sur des standards définis par le W3C.
           </p>
+        </div>
+      </div>
+    </div>
+  );
+
+  const Slide4 = () => (
+    <div style={styles.slide}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
+          <h1 style={{
+            fontSize: '3.5rem',
+            fontWeight: 800,
+            ...styles.gradientText,
+            marginBottom: '1rem',
+            letterSpacing: '-0.02em'
+          }}>
+            3. Origine du Web sémantique
+          </h1>
+        </div>
+
+        <div style={{
+          ...styles.card,
+          background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
+          padding: '3rem',
+          marginBottom: '3rem',
+          position: 'relative',
+          overflow: 'hidden',
+          border: '2px solid rgba(59, 130, 246, 0.2)'
+        }}>
+          <div style={{
+            position: 'absolute',
+            top: '-80px',
+            right: '-80px',
+            width: '300px',
+            height: '300px',
+            background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
+            borderRadius: '50%',
+            opacity: 0.1
+          }}></div>
+          
+          <p style={{
+            fontSize: '2rem',
+            lineHeight: 1.6,
+            color: '#1e40af',
+            position: 'relative',
+            zIndex: 1,
+            fontWeight: 600
+          }}>
+            Le Web sémantique est une <strong style={{ color: '#1d4ed8', fontWeight: 800 }}>évolution naturelle du Web</strong>,
+            proposée par <strong style={{ color: '#1d4ed8', fontWeight: 800 }}>Tim Berners-Lee</strong>, inventeur du Web.
+          </p>
+        </div>
+
+        <div style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
+          gap: '2rem',
+          marginBottom: '3rem'
+        }}>
+          {[
+            {
+              title: 'Web pour les humains',
+              description: 'Le Web initial était conçu pour les humains',
+              icon: <FaUser />,
+              color: '#3b82f6'
+            },
+            {
+              title: 'Machines limitées',
+              description: 'Les machines ne faisaient que lire et afficher',
+              icon: <FaRobot />,
+              color: '#8b5cf6'
+            },
+            {
+              title: 'Nouvel objectif',
+              description: 'Permettre aux machines de comprendre les données',
+              icon: <FaBrain />,
+              color: '#10b981'
+            }
+          ].map((item, idx) => (
+            <div key={idx} style={{
+              ...styles.card,
+              textAlign: 'center',
+              padding: '2.5rem',
+              borderTop: `6px solid ${item.color}`,
+              background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
+              transition: 'transform 0.3s ease'
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-10px)'}
+            onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+            >
+              <div style={{
+                width: '90px',
+                height: '90px',
+                background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
+                borderRadius: '50%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                margin: '0 auto 1.5rem',
+                color: 'white',
+                fontSize: '2.25rem',
+                boxShadow: `0 15px 30px -10px ${item.color}60`
+              }}>
+                {item.icon}
+              </div>
+              <h3 style={{
+                fontSize: '1.75rem',
+                fontWeight: 700,
+                color: '#0f172a',
+                marginBottom: '1rem'
+              }}>
+                {item.title}
+              </h3>
+              <p style={{
+                fontSize: '1.2rem',
+                color: '#64748b',
+                lineHeight: 1.6
+              }}>
+                {item.description}
+              </p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -790,34 +796,33 @@ const App = () => {
 
   const Slide5 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            3. Évolution du Web
+            4. Évolution du Web
           </h1>
-          <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1.25rem)', color: '#64748b', fontWeight: 400 }}>
+          <p style={{ fontSize: '1.375rem', color: '#64748b', fontWeight: 500 }}>
             De la lecture à la compréhension
           </p>
         </div>
 
-        <div style={{ position: 'relative', padding: '1.5rem 0' }}>
+        <div style={{ position: 'relative', padding: '3rem 0' }}>
           <div style={{
             position: 'absolute',
             left: '50%',
             top: 0,
             bottom: 0,
-            width: '3px',
+            width: '5px',
             background: 'linear-gradient(to bottom, #3b82f6, #8b5cf6, #10b981)',
             transform: 'translateX(-50%)',
             zIndex: 0,
-            borderRadius: '10px',
-            display: window.innerWidth > 768 ? 'block' : 'none'
+            borderRadius: '10px'
           }}></div>
 
           {[
@@ -849,34 +854,34 @@ const App = () => {
             <div key={idx} style={{
               display: 'flex',
               alignItems: 'center',
-              marginBottom: window.innerWidth > 768 ? '3rem' : '2rem',
+              marginBottom: '5rem',
               position: 'relative',
-              flexDirection: window.innerWidth > 768 ? (idx % 2 === 0 ? 'row' : 'row-reverse') : 'column'
+              flexDirection: idx % 2 === 0 ? 'row' : 'row-reverse'
             }}>
               <div style={{
-                width: window.innerWidth > 768 ? '45%' : '100%',
+                width: '45%',
                 ...styles.card,
-                borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
-                background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-                marginBottom: window.innerWidth > 768 ? 0 : '1rem'
+                borderTop: `6px solid ${item.color}`,
+                padding: '2.5rem',
+                background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
               }}>
                 <div style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.75rem',
-                  marginBottom: '1rem'
+                  gap: '1.25rem',
+                  marginBottom: '1.5rem'
                 }}>
                   <div style={{
-                    width: '50px',
-                    height: '50px',
+                    width: '60px',
+                    height: '60px',
                     background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                    borderRadius: '12px',
+                    borderRadius: '16px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
                     color: 'white',
-                    fontSize: '1.5rem'
+                    fontSize: '1.75rem',
+                    boxShadow: `0 10px 25px -10px ${item.color}80`
                   }}>
                     {item.icon}
                   </div>
@@ -885,58 +890,58 @@ const App = () => {
                       display: 'inline-block',
                       background: `${item.color}20`,
                       color: item.color,
-                      padding: '0.3rem 1rem',
+                      padding: '0.4rem 1.25rem',
                       borderRadius: '50px',
-                      fontSize: '0.8rem',
-                      fontWeight: 600,
-                      marginBottom: '0.25rem',
+                      fontSize: '0.95rem',
+                      fontWeight: 700,
+                      marginBottom: '0.5rem',
                       border: `2px solid ${item.color}40`
                     }}>
                       Web {item.version}
                     </div>
                     <div style={{
-                      fontSize: '0.8rem',
+                      fontSize: '0.95rem',
                       color: '#94a3b8',
-                      fontWeight: 500
+                      fontWeight: 600
                     }}>
                       {item.year}
                     </div>
                   </div>
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-                  fontWeight: 600,
+                  fontSize: '2rem',
+                  fontWeight: 700,
                   color: '#0f172a',
-                  marginBottom: '0.5rem'
+                  marginBottom: '0.75rem'
                 }}>
                   {item.title}
                 </h3>
                 <p style={{
-                  fontSize: 'clamp(0.85rem, 1.8vw, 1rem)',
+                  fontSize: '1.2rem',
                   color: '#64748b',
-                  lineHeight: 1.5
+                  lineHeight: 1.7
                 }}>
                   {item.description}
                 </p>
               </div>
 
               <div style={{
-                position: window.innerWidth > 768 ? 'absolute' : 'relative',
-                left: window.innerWidth > 768 ? '50%' : 'auto',
-                transform: window.innerWidth > 768 ? 'translateX(-50%)' : 'none',
-                width: '40px',
-                height: '40px',
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
+                width: '50px',
+                height: '50px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                fontSize: '1.25rem',
-                fontWeight: 700,
+                fontSize: '1.5rem',
+                fontWeight: 800,
+                boxShadow: `0 0 0 10px ${item.color}20, 0 10px 25px -5px ${item.color}60`,
                 zIndex: 1,
-                border: '3px solid white',
-                margin: window.innerWidth > 768 ? '0' : '0 auto 1rem'
+                border: '4px solid white'
               }}>
                 {item.version}
               </div>
@@ -949,35 +954,35 @@ const App = () => {
 
   const Slide6 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            4. Pourquoi le Web sémantique ?
+            5. Pourquoi le Web sémantique ?
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Limites du Web actuel et objectifs du Web sémantique
           </h2>
         </div>
 
-        <div style={{ marginBottom: '2rem' }}>
+        <div style={{ marginBottom: '4rem' }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            fontWeight: 600,
+            fontSize: '2rem',
+            fontWeight: 700,
             color: '#dc2626',
-            marginBottom: '1.5rem',
+            marginBottom: '2.5rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem'
+            gap: '1rem'
           }}>
             <FaExclamationTriangle />
             Problèmes du Web actuel
@@ -985,8 +990,8 @@ const App = () => {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '2rem'
           }}>
             {[
               {
@@ -1010,33 +1015,34 @@ const App = () => {
             ].map((item, idx) => (
               <div key={idx} style={{
                 ...styles.card,
-                borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
+                borderTop: `6px solid ${item.color}`,
+                padding: '2.5rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #fef2f2 100%)'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '70px',
+                  height: '70px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1rem',
+                  marginBottom: '1.5rem',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: '1.75rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h4 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a',
-                  marginBottom: '0.5rem'
+                  marginBottom: '1rem'
                 }}>
                   {item.title}
                 </h4>
-                <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+                <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6 }}>
                   {item.description}
                 </p>
               </div>
@@ -1046,13 +1052,13 @@ const App = () => {
 
         <div>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            fontWeight: 600,
+            fontSize: '2rem',
+            fontWeight: 700,
             color: '#059669',
-            marginBottom: '1.5rem',
+            marginBottom: '2.5rem',
             display: 'flex',
             alignItems: 'center',
-            gap: '0.75rem'
+            gap: '1rem'
           }}>
             <FaCheckCircle />
             Objectifs du Web sémantique
@@ -1060,8 +1066,8 @@ const App = () => {
           
           <div style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-            gap: '1rem'
+            gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
+            gap: '2rem'
           }}>
             {[
               {
@@ -1085,33 +1091,34 @@ const App = () => {
             ].map((item, idx) => (
               <div key={idx} style={{
                 ...styles.card,
-                borderTop: `4px solid ${item.color}`,
-                padding: '1.5rem',
+                borderTop: `6px solid ${item.color}`,
+                padding: '2.5rem',
                 background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '70px',
+                  height: '70px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  marginBottom: '1rem',
+                  marginBottom: '1.5rem',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: '1.75rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h4 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a',
-                  marginBottom: '0.5rem'
+                  marginBottom: '1rem'
                 }}>
                   {item.title}
                 </h4>
-                <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+                <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6 }}>
                   {item.description}
                 </p>
               </div>
@@ -1124,48 +1131,51 @@ const App = () => {
 
   const Slide7 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            5. Principes et concepts clés
+            6. Principes et concepts clés
           </h1>
         </div>
 
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-          padding: '1.5rem',
-          marginBottom: '2rem',
+          padding: '3rem',
+          marginBottom: '3rem',
           border: '2px solid rgba(59, 130, 246, 0.2)'
         }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            fontWeight: 600,
+            fontSize: '2rem',
+            fontWeight: 700,
             color: '#1e40af',
-            marginBottom: '1rem'
+            marginBottom: '1.5rem'
           }}>
             Le principe fondamental
           </h3>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
-            lineHeight: 1.5,
+            fontSize: '1.5rem',
+            lineHeight: 1.7,
             color: '#1e293b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
-            Le Web sémantique permet aux machines de comprendre et exploiter le sens des données en ajoutant des métadonnées et des relations sémantiques.
+            Le Web sémantique permet aux machines de{' '}
+            <strong style={{ color: '#3b82f6', fontWeight: 700 }}>comprendre et exploiter le sens des données</strong>{' '}
+            en ajoutant des <strong style={{ color: '#8b5cf6', fontWeight: 700 }}>métadonnées</strong> et des{' '}
+            <strong style={{ color: '#10b981', fontWeight: 700 }}>relations sémantiques</strong>.
           </p>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+          gap: '2rem'
         }}>
           {[
             {
@@ -1199,33 +1209,34 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderTop: `6px solid ${item.color}`,
+              padding: '2.5rem',
               height: '100%',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: '1.25rem',
+                marginBottom: '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '60px',
+                  height: '60px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: '1.5rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a'
                 }}>
                   {item.title}
@@ -1234,28 +1245,28 @@ const App = () => {
               
               <p style={{
                 color: '#64748b',
-                marginBottom: '1rem',
-                lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                marginBottom: '1.5rem',
+                lineHeight: 1.7,
+                fontSize: '1.05rem'
               }}>
                 {item.description}
               </p>
               
               <div style={{
                 background: `${item.color}10`,
-                padding: '1rem',
-                borderRadius: '8px',
-                borderLeft: `3px solid ${item.color}`
+                padding: '1.25rem',
+                borderRadius: '12px',
+                borderLeft: `4px solid ${item.color}`
               }}>
                 <div style={{
-                  fontSize: '0.8rem',
-                  fontWeight: 600,
+                  fontSize: '0.95rem',
+                  fontWeight: 700,
                   color: item.color,
-                  marginBottom: '0.25rem'
+                  marginBottom: '0.5rem'
                 }}>
                   Exemple :
                 </div>
-                <div style={{ color: '#475569', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)', fontWeight: 400 }}>
+                <div style={{ color: '#475569', fontSize: '1rem', fontWeight: 500 }}>
                   {item.example}
                 </div>
               </div>
@@ -1268,21 +1279,21 @@ const App = () => {
 
   const Slide8 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            6. Exemples Concrets
+            7. Exemples Concrets
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Applications pratiques du Web sémantique
           </h2>
@@ -1290,38 +1301,40 @@ const App = () => {
 
         <div style={{
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          padding: '1.5rem',
-          borderRadius: '12px',
-          marginBottom: '2rem',
+          padding: '2.5rem',
+          borderRadius: '20px',
+          marginBottom: '3rem',
           display: 'flex',
           alignItems: 'center',
-          gap: '1rem',
-          border: '2px solid rgba(245, 158, 11, 0.2)'
+          gap: '1.5rem',
+          border: '2px solid rgba(245, 158, 11, 0.2)',
+          boxShadow: '0 10px 25px -10px rgba(245, 158, 11, 0.3)'
         }}>
           <div style={{
-            width: '50px',
-            height: '50px',
+            width: '70px',
+            height: '70px',
             background: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)',
-            borderRadius: '10px',
+            borderRadius: '16px',
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
             color: 'white',
-            fontSize: '1.5rem',
-            flexShrink: 0
+            fontSize: '1.75rem',
+            flexShrink: 0,
+            boxShadow: '0 10px 25px -10px rgba(245, 158, 11, 0.5)'
           }}>
             <FaLightbulb />
           </div>
           <div>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-              fontWeight: 600,
+              fontSize: '1.75rem',
+              fontWeight: 700,
               color: '#92400e',
-              marginBottom: '0.25rem'
+              marginBottom: '0.5rem'
             }}>
               EXEMPLE CONCRET : Recherche intelligente dans le cinéma
             </h3>
-            <p style={{ color: '#92400e', margin: 0, fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 400 }}>
+            <p style={{ color: '#92400e', margin: 0, fontSize: '1.1rem', fontWeight: 500 }}>
               Comment le Web sémantique transforme une recherche simple en résultats riches et contextuels
             </p>
           </div>
@@ -1329,8 +1342,8 @@ const App = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+          gap: '2rem'
         }}>
           {[
             {
@@ -1360,16 +1373,16 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderTop: `6px solid ${item.color}`,
+              padding: '2.5rem',
               height: '100%',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
-                fontSize: '3rem',
-                fontWeight: 700,
+                fontSize: '4rem',
+                fontWeight: 800,
                 color: `${item.color}15`,
-                marginBottom: '0.5rem',
+                marginBottom: '1rem',
                 lineHeight: 1
               }}>
                 {item.number}
@@ -1378,25 +1391,26 @@ const App = () => {
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: '1.25rem',
+                marginBottom: '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '60px',
+                  height: '60px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: '1.5rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a'
                 }}>
                   {item.title}
@@ -1405,9 +1419,9 @@ const App = () => {
               
               <p style={{
                 color: '#64748b',
-                lineHeight: 1.5,
-                marginBottom: '1rem',
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                lineHeight: 1.7,
+                marginBottom: '1.5rem',
+                fontSize: '1.05rem'
               }}>
                 {item.description}
               </p>
@@ -1415,61 +1429,61 @@ const App = () => {
               {item.showExample && (
                 <div style={{
                   background: '#f8fafc',
-                  padding: '1rem',
-                  borderRadius: '8px',
+                  padding: '1.25rem',
+                  borderRadius: '12px',
                   border: '1px solid #e2e8f0'
                 }}>
                   <div style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.95rem',
                     color: '#64748b',
-                    marginBottom: '0.5rem',
-                    fontWeight: 500
+                    marginBottom: '0.75rem',
+                    fontWeight: 600
                   }}>
                     Recherche traditionnelle :
                   </div>
                   <div style={{
                     background: 'white',
-                    padding: '0.75rem',
-                    borderRadius: '6px',
+                    padding: '1rem',
+                    borderRadius: '8px',
                     border: '2px solid #e5e7eb',
                     fontFamily: 'monospace',
                     color: '#1e293b',
-                    fontSize: '0.8rem',
-                    marginBottom: '0.75rem'
+                    fontSize: '0.95rem',
+                    marginBottom: '1rem'
                   }}>
                     "films Christopher Nolan Inception"
                   </div>
                   <div style={{
                     textAlign: 'center',
-                    margin: '0.75rem 0',
+                    margin: '1rem 0',
                     color: '#3b82f6',
-                    fontWeight: 600,
-                    fontSize: '1rem'
+                    fontWeight: 700,
+                    fontSize: '1.25rem'
                   }}>
                     ↓ Web Sémantique
                   </div>
                   <div style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.95rem',
                     color: '#64748b',
-                    marginBottom: '0.5rem',
-                    fontWeight: 500
+                    marginBottom: '0.75rem',
+                    fontWeight: 600
                   }}>
                     Résultat enrichi :
                   </div>
                   <div style={{
                     background: 'white',
-                    padding: '1rem',
-                    borderRadius: '6px',
+                    padding: '1.25rem',
+                    borderRadius: '8px',
                     border: '2px solid #e5e7eb'
                   }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', fontSize: '0.8rem' }}>
-                      <FaFilm color="#3b82f6" size={16} /> <span>Film : Inception (2010)</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', fontSize: '1rem' }}>
+                      <FaFilm color="#3b82f6" size={18} /> <strong>Film :</strong> Inception (2010)
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem', fontSize: '0.8rem' }}>
-                      <FaUser color="#3b82f6" size={16} /> <span>Réalisateur : Christopher Nolan</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.75rem', fontSize: '1rem' }}>
+                      <FaUser color="#3b82f6" size={18} /> <strong>Réalisateur :</strong> Christopher Nolan
                     </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', fontSize: '0.8rem' }}>
-                      <FaStar color="#3b82f6" size={16} /> <span>Acteurs : Leonardo DiCaprio, Joseph Gordon-Levitt</span>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', fontSize: '1rem' }}>
+                      <FaStar color="#3b82f6" size={18} /> <strong>Acteurs :</strong> Leonardo DiCaprio, Joseph Gordon-Levitt
                     </div>
                   </div>
                 </div>
@@ -1483,27 +1497,27 @@ const App = () => {
 
   const Slide9 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            7. Technologies : La Pile Sémantique
+            8. Technologies : La Pile Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Architecture en couches (W3C)
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gap: '2.5rem' }}>
           {[
             {
               title: 'Couche d\'Interrogation & Ontologie',
@@ -1533,32 +1547,33 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderLeft: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderLeft: `6px solid ${item.color}`,
+              padding: '2.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1rem',
-                marginBottom: '1.5rem'
+                gap: '1.5rem',
+                marginBottom: '2rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '70px',
+                  height: '70px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: '1.75rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.75rem',
+                  fontWeight: 700,
                   color: '#0f172a'
                 }}>
                   {item.title}
@@ -1571,28 +1586,28 @@ const App = () => {
                     <li key={techIdx} style={{
                       display: 'flex',
                       alignItems: 'flex-start',
-                      marginBottom: '0.75rem',
-                      paddingLeft: '1.5rem',
+                      marginBottom: '1.25rem',
+                      paddingLeft: '2rem',
                       position: 'relative'
                     }}>
                       <div style={{
                         position: 'absolute',
                         left: 0,
-                        top: '0.5rem',
-                        width: '8px',
-                        height: '8px',
+                        top: '0.6rem',
+                        width: '10px',
+                        height: '10px',
                         background: item.color,
                         borderRadius: '50%'
                       }}></div>
-                      <span style={{ color: '#475569', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{tech}</span>
+                      <span style={{ color: '#475569', fontSize: '1.1rem', lineHeight: 1.7 }}>{tech}</span>
                     </li>
                   ))}
                 </ul>
               )}
               
               {item.description && (
-                <div style={{ color: '#475569', lineHeight: 1.5, fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)' }}>
-                  <p>Rôle : {item.description}</p>
+                <div style={{ color: '#475569', lineHeight: 1.7, fontSize: '1.1rem' }}>
+                  <p><strong>Rôle :</strong> {item.description}</p>
                 </div>
               )}
               
@@ -1600,11 +1615,12 @@ const App = () => {
                 <div style={{
                   background: '#0f172a',
                   color: '#e2e8f0',
-                  padding: '1rem',
-                  borderRadius: '8px',
-                  marginTop: '1rem',
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  marginTop: '1.5rem',
                   fontFamily: 'monospace',
-                  fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)'
+                  fontSize: '1.1rem',
+                  boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.5)'
                 }}>
                   {item.example}
                 </div>
@@ -1618,27 +1634,27 @@ const App = () => {
 
   const Slide10 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            8. Applications Concrètes
+            9. Applications Concrètes
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Où le Web Sémantique est-il utilisé aujourd'hui ?
           </h2>
         </div>
 
-        <div style={{ display: 'grid', gap: '1.5rem' }}>
+        <div style={{ display: 'grid', gap: '2.5rem' }}>
           {[
             {
               title: 'Moteurs de Recherche (Knowledge Graph)',
@@ -1676,39 +1692,40 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderTop: `6px solid ${item.color}`,
+              padding: '2.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '1rem',
-                marginBottom: '1.5rem'
+                gap: '1.5rem',
+                marginBottom: '2rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '70px',
+                  height: '70px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '18px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.5rem'
+                  fontSize: '1.75rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <div>
                   <h3 style={{
-                    fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                    fontWeight: 600,
+                    fontSize: '1.75rem',
+                    fontWeight: 700,
                     color: '#0f172a',
-                    marginBottom: '0.25rem'
+                    marginBottom: '0.5rem'
                   }}>
                     {item.title}
                   </h3>
-                  <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 400 }}>{item.description}</p>
+                  <p style={{ color: '#64748b', fontSize: '1.1rem', fontWeight: 500 }}>{item.description}</p>
                 </div>
               </div>
               
@@ -1717,20 +1734,20 @@ const App = () => {
                   <li key={pointIdx} style={{
                     display: 'flex',
                     alignItems: 'flex-start',
-                    marginBottom: '0.75rem',
-                    paddingLeft: '1.5rem',
+                    marginBottom: '1rem',
+                    paddingLeft: '2rem',
                     position: 'relative'
                   }}>
                     <div style={{
                       position: 'absolute',
                       left: 0,
-                      top: '0.5rem',
-                      width: '8px',
-                      height: '8px',
+                      top: '0.6rem',
+                      width: '10px',
+                      height: '10px',
                       background: item.color,
                       borderRadius: '50%'
                     }}></div>
-                    <span style={{ color: '#475569', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{point}</span>
+                    <span style={{ color: '#475569', fontSize: '1.1rem', lineHeight: 1.7 }}>{point}</span>
                   </li>
                 ))}
               </ul>
@@ -1743,21 +1760,21 @@ const App = () => {
 
   const Slide11 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            9. Les Défis du Web Sémantique
+            10. Les Défis du Web Sémantique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Les obstacles à surmonter
           </h2>
@@ -1765,8 +1782,8 @@ const App = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+          gap: '2rem'
         }}>
           {[
             {
@@ -1796,32 +1813,33 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderTop: `6px solid ${item.color}`,
+              padding: '2.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: '1.25rem',
+                marginBottom: '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '60px',
+                  height: '60px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: '1.5rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a'
                 }}>
                   {item.title}
@@ -1830,8 +1848,8 @@ const App = () => {
               
               <p style={{
                 color: '#64748b',
-                lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                lineHeight: 1.7,
+                fontSize: '1.05rem'
               }}>
                 {item.description}
               </p>
@@ -1844,21 +1862,21 @@ const App = () => {
 
   const Slide12 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            10. Les Limites Actuelles
+            11. Les Limites Actuelles
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Contraintes techniques et pratiques
           </h2>
@@ -1866,8 +1884,8 @@ const App = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
-          gap: '1rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(380px, 1fr))',
+          gap: '2rem'
         }}>
           {[
             {
@@ -1897,32 +1915,33 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              borderTop: `4px solid ${item.color}`,
-              padding: '1.5rem',
+              borderTop: `6px solid ${item.color}`,
+              padding: '2.5rem',
               background: 'linear-gradient(135deg, #ffffff 0%, #fafbfc 100%)'
             }}>
               <div style={{
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.75rem',
-                marginBottom: '1rem'
+                gap: '1.25rem',
+                marginBottom: '1.5rem'
               }}>
                 <div style={{
-                  width: '50px',
-                  height: '50px',
+                  width: '60px',
+                  height: '60px',
                   background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
-                  borderRadius: '12px',
+                  borderRadius: '16px',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
                   color: 'white',
-                  fontSize: '1.25rem'
+                  fontSize: '1.5rem',
+                  boxShadow: `0 10px 25px -10px ${item.color}60`
                 }}>
                   {item.icon}
                 </div>
                 <h3 style={{
-                  fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                  fontWeight: 600,
+                  fontSize: '1.5rem',
+                  fontWeight: 700,
                   color: '#0f172a'
                 }}>
                   {item.title}
@@ -1931,8 +1950,8 @@ const App = () => {
               
               <p style={{
                 color: '#64748b',
-                lineHeight: 1.5,
-                fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)'
+                lineHeight: 1.7,
+                fontSize: '1.05rem'
               }}>
                 {item.description}
               </p>
@@ -1945,21 +1964,21 @@ const App = () => {
 
   const Slide13 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-        <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', textAlign: 'center' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            11. Conclusion
+            12. Conclusion
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             L\'avenir du Web est sémantique
           </h2>
@@ -1968,36 +1987,36 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #dbeafe 0%, #e0e7ff 100%)',
-          padding: '1.5rem',
-          marginBottom: '2rem',
+          padding: '3rem',
+          marginBottom: '3rem',
           border: '2px solid rgba(59, 130, 246, 0.2)'
         }}>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
-            lineHeight: 1.5,
+            fontSize: '1.5rem',
+            lineHeight: 1.8,
             color: '#1e293b',
-            marginBottom: '1rem',
-            fontWeight: 400
+            marginBottom: '1.5rem',
+            fontWeight: 500
           }}>
-            Le Web Sémantique transforme progressivement notre façon d\'organiser et d\'exploiter l\'information numérique. 
+            Le <strong style={{ color: '#3b82f6', fontWeight: 700 }}>Web Sémantique</strong> transforme progressivement notre façon d\'organiser et d\'exploiter l\'information numérique. 
             Malgré ses défis, il ouvre des perspectives révolutionnaires.
           </p>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
-            lineHeight: 1.5,
+            fontSize: '1.5rem',
+            lineHeight: 1.8,
             color: '#1e293b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
-            L\'intégration croissante avec l\'Intelligence Artificielle promet un Web où les machines ne se contentent pas de stocker des données, 
-            mais les comprennent et raisonnent avec elles.
+            L\'intégration croissante avec l\'<strong style={{ color: '#8b5cf6', fontWeight: 700 }}>Intelligence Artificielle</strong> promet un Web où les machines ne se contentent pas de stocker des données, 
+            mais les <strong style={{ color: '#10b981', fontWeight: 700 }}>comprennent</strong> et <strong style={{ color: '#10b981', fontWeight: 700 }}>raisonnent</strong> avec elles.
           </p>
         </div>
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))',
-          gap: '1rem',
-          marginBottom: '2rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
+          gap: '2rem',
+          marginBottom: '3rem'
         }}>
           {[
             {
@@ -2021,33 +2040,34 @@ const App = () => {
           ].map((item, idx) => (
             <div key={idx} style={{
               ...styles.card,
-              padding: '1.5rem',
+              padding: '2.5rem',
               textAlign: 'center',
               background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)'
             }}>
               <div style={{
-                width: '70px',
-                height: '70px',
+                width: '90px',
+                height: '90px',
                 background: `linear-gradient(135deg, ${item.color} 0%, ${item.color}dd 100%)`,
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                margin: '0 auto 1rem',
+                margin: '0 auto 1.5rem',
                 color: 'white',
-                fontSize: '1.75rem'
+                fontSize: '2.25rem',
+                boxShadow: `0 15px 30px -10px ${item.color}60`
               }}>
                 {item.icon}
               </div>
               <h3 style={{
-                fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-                fontWeight: 600,
+                fontSize: '1.75rem',
+                fontWeight: 700,
                 color: '#0f172a',
-                marginBottom: '0.5rem'
+                marginBottom: '1rem'
               }}>
                 {item.title}
               </h3>
-              <p style={{ color: '#64748b', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>
+              <p style={{ color: '#64748b', fontSize: '1.1rem', lineHeight: 1.6 }}>
                 {item.description}
               </p>
             </div>
@@ -2057,21 +2077,23 @@ const App = () => {
         <div style={{
           background: 'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)',
           color: 'white',
-          padding: '1.5rem',
-          borderRadius: '12px'
+          padding: '3.5rem',
+          borderRadius: '24px',
+          marginTop: '2rem',
+          boxShadow: '0 25px 50px -12px rgba(59, 130, 246, 0.5)'
         }}>
           <h3 style={{
-            fontSize: 'clamp(1.1rem, 2.5vw, 1.5rem)',
-            fontWeight: 600,
-            marginBottom: '0.75rem'
+            fontSize: '2.5rem',
+            fontWeight: 800,
+            marginBottom: '1rem'
           }}>
             Merci de votre attention !
           </h3>
           <p style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             opacity: 0.95,
             margin: 0,
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Le Web Sémantique n\'est pas une utopie,
             <br />
@@ -2084,21 +2106,21 @@ const App = () => {
 
   const Slide14 = () => (
     <div style={styles.slide}>
-      <div style={{ padding: '1rem', flex: 1, overflow: 'auto' }}>
-        <div style={{ marginBottom: '2rem' }}>
+      <div style={{ maxWidth: '1300px', margin: '0 auto' }}>
+        <div style={{ marginBottom: '3rem' }}>
           <h1 style={{
-            fontSize: 'clamp(1.5rem, 4vw, 2.5rem)',
-            fontWeight: 700,
+            fontSize: '3.5rem',
+            fontWeight: 800,
             ...styles.gradientText,
-            marginBottom: '0.5rem',
+            marginBottom: '1rem',
             letterSpacing: '-0.02em'
           }}>
-            12. Démonstration Pratique
+            13. Démonstration Pratique
           </h1>
           <h2 style={{
-            fontSize: 'clamp(0.9rem, 2vw, 1.25rem)',
+            fontSize: '1.5rem',
             color: '#64748b',
-            fontWeight: 400
+            fontWeight: 500
           }}>
             Implémentation RDF/SPARQL avec Python
           </h2>
@@ -2106,23 +2128,23 @@ const App = () => {
 
         <div style={{
           display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(340px, 1fr))',
-          gap: '1rem',
-          marginBottom: '1.5rem'
+          gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))',
+          gap: '2rem',
+          marginBottom: '3rem'
         }}>
           <div style={{
             ...styles.card,
-            borderTop: '4px solid #3b82f6',
+            borderTop: '6px solid #3b82f6',
             background: 'linear-gradient(135deg, #ffffff 0%, #f0f9ff 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-              fontWeight: 600,
+              fontSize: '1.75rem',
+              fontWeight: 700,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem'
+              gap: '1rem'
             }}>
               <FaCode color="#3b82f6" />
               Installation et Configuration
@@ -2131,27 +2153,29 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
-              borderRadius: '8px',
-              marginBottom: '1rem',
+              padding: '1.25rem',
+              borderRadius: '12px',
+              marginBottom: '1.25rem',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: '1rem',
+              boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.5)'
             }}>
               pip install rdflib<br />
               from rdflib import Graph, Namespace, RDF, Literal
             </div>
             
-            <p style={{ color: '#64748b', marginBottom: '0.75rem', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', fontWeight: 500 }}>
-              Création du graphe RDF :
+            <p style={{ color: '#64748b', marginBottom: '1rem', fontSize: '1.05rem', fontWeight: 600 }}>
+              <strong>Création du graphe RDF :</strong>
             </p>
             
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
-              borderRadius: '8px',
+              padding: '1.25rem',
+              borderRadius: '12px',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: '1rem',
+              boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.5)'
             }}>
               g = Graph()<br />
               EX = Namespace("http://example.org/")<br />
@@ -2165,23 +2189,23 @@ const App = () => {
 
           <div style={{
             ...styles.card,
-            borderTop: '4px solid #8b5cf6',
+            borderTop: '6px solid #8b5cf6',
             background: 'linear-gradient(135deg, #ffffff 0%, #faf5ff 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-              fontWeight: 600,
+              fontSize: '1.75rem',
+              fontWeight: 700,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem'
+              gap: '1rem'
             }}>
               <FaDatabase color="#8b5cf6" />
               Ajout des Triple RDF
             </h3>
             
-            <div style={{ marginBottom: '1rem' }}>
+            <div style={{ marginBottom: '1.5rem' }}>
               {[
                 { s: '<Ahmed>', p: 'rdf:type', o: '<Etudiant>' },
                 { s: '<Sara>', p: 'rdf:type', o: '<Etudiant>' },
@@ -2191,18 +2215,18 @@ const App = () => {
                 <div key={idx} style={{
                   display: 'flex',
                   alignItems: 'center',
-                  gap: '0.5rem',
-                  marginBottom: '0.75rem',
-                  padding: '0.75rem',
+                  gap: '0.75rem',
+                  marginBottom: '1rem',
+                  padding: '1rem',
                   background: '#faf5ff',
-                  borderRadius: '6px',
+                  borderRadius: '10px',
                   fontFamily: 'monospace',
-                  fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)',
+                  fontSize: '1rem',
                   border: '1px solid #e9d5ff'
                 }}>
-                  <span style={{ color: '#dc2626', fontWeight: 500 }}>{triplet.s}</span>
-                  <span style={{ color: '#10b981', fontWeight: 500 }}>{triplet.p}</span>
-                  <span style={{ color: '#3b82f6', fontWeight: 500 }}>{triplet.o}</span>
+                  <span style={{ color: '#dc2626', fontWeight: 600 }}>{triplet.s}</span>
+                  <span style={{ color: '#10b981', fontWeight: 600 }}>{triplet.p}</span>
+                  <span style={{ color: '#3b82f6', fontWeight: 600 }}>{triplet.o}</span>
                 </div>
               ))}
             </div>
@@ -2210,10 +2234,11 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
-              borderRadius: '8px',
+              padding: '1.25rem',
+              borderRadius: '12px',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: '1rem',
+              boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.5)'
             }}>
               # Code Python correspondant<br />
               g.add((etudiant1, RDF.type, EX.Etudiant))<br />
@@ -2225,17 +2250,17 @@ const App = () => {
 
           <div style={{
             ...styles.card,
-            borderTop: '4px solid #10b981',
+            borderTop: '6px solid #10b981',
             background: 'linear-gradient(135deg, #ffffff 0%, #f0fdf4 100%)'
           }}>
             <h3 style={{
-              fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-              fontWeight: 600,
+              fontSize: '1.75rem',
+              fontWeight: 700,
               color: '#0f172a',
-              marginBottom: '1rem',
+              marginBottom: '1.5rem',
               display: 'flex',
               alignItems: 'center',
-              gap: '0.75rem'
+              gap: '1rem'
             }}>
               <FaSearch color="#10b981" />
               Requête SPARQL
@@ -2244,11 +2269,12 @@ const App = () => {
             <div style={{
               background: '#0f172a',
               color: '#e2e8f0',
-              padding: '1rem',
-              borderRadius: '8px',
-              marginBottom: '1rem',
+              padding: '1.25rem',
+              borderRadius: '12px',
+              marginBottom: '1.5rem',
               fontFamily: 'monospace',
-              fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)'
+              fontSize: '1rem',
+              boxShadow: '0 10px 25px -10px rgba(0, 0, 0, 0.5)'
             }}>
               PREFIX ex: &lt;http://example.org/&gt;<br /><br />
               SELECT ?etudiant<br />
@@ -2259,18 +2285,19 @@ const App = () => {
             
             <div>
               <h4 style={{
-                fontSize: 'clamp(0.9rem, 2vw, 1.1rem)',
-                fontWeight: 600,
+                fontSize: '1.25rem',
+                fontWeight: 700,
                 color: '#0f172a',
-                marginBottom: '0.75rem'
+                marginBottom: '1rem'
               }}>
                 Résultats de la requête :
               </h4>
               <div style={{
                 background: 'white',
                 border: '2px solid #e2e8f0',
-                borderRadius: '8px',
-                overflow: 'hidden'
+                borderRadius: '12px',
+                overflow: 'hidden',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1)'
               }}>
                 <div style={{
                   display: 'grid',
@@ -2278,16 +2305,16 @@ const App = () => {
                   background: '#f8fafc',
                   borderBottom: '2px solid #e2e8f0'
                 }}>
-                  <div style={{ padding: '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Étudiant</div>
-                  <div style={{ padding: '0.75rem', fontWeight: 500, color: '#1e293b', fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>URI</div>
+                  <div style={{ padding: '1rem', fontWeight: 700, color: '#1e293b' }}>Étudiant</div>
+                  <div style={{ padding: '1rem', fontWeight: 700, color: '#1e293b' }}>URI</div>
                 </div>
                 <div style={{
                   display: 'grid',
                   gridTemplateColumns: '1fr 2fr',
                   borderBottom: '1px solid #e2e8f0'
                 }}>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontWeight: 500, fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Ahmed</div>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
+                  <div style={{ padding: '1rem', color: '#475569', fontWeight: 600 }}>Ahmed</div>
+                  <div style={{ padding: '1rem', color: '#475569', fontFamily: 'monospace', fontSize: '0.95rem' }}>
                     http://example.org/Ahmed
                   </div>
                 </div>
@@ -2295,8 +2322,8 @@ const App = () => {
                   display: 'grid',
                   gridTemplateColumns: '1fr 2fr'
                 }}>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontWeight: 500, fontSize: 'clamp(0.8rem, 1.8vw, 0.9rem)' }}>Sara</div>
-                  <div style={{ padding: '0.75rem', color: '#475569', fontFamily: 'monospace', fontSize: 'clamp(0.75rem, 1.6vw, 0.85rem)' }}>
+                  <div style={{ padding: '1rem', color: '#475569', fontWeight: 600 }}>Sara</div>
+                  <div style={{ padding: '1rem', color: '#475569', fontFamily: 'monospace', fontSize: '0.95rem' }}>
                     http://example.org/Sara
                   </div>
                 </div>
@@ -2308,14 +2335,14 @@ const App = () => {
         <div style={{
           ...styles.card,
           background: 'linear-gradient(135deg, #fef3c7 0%, #fde68a 100%)',
-          padding: '1.5rem',
+          padding: '2.5rem',
           border: '2px solid rgba(245, 158, 11, 0.2)'
         }}>
           <h4 style={{
-            fontSize: 'clamp(1rem, 2.2vw, 1.25rem)',
-            fontWeight: 600,
+            fontSize: '1.5rem',
+            fontWeight: 700,
             color: '#92400e',
-            marginBottom: '1rem'
+            marginBottom: '1.5rem'
           }}>
             Ce que cette démonstration illustre :
           </h4>
@@ -2328,15 +2355,15 @@ const App = () => {
             <div key={idx} style={{
               display: 'flex',
               alignItems: 'flex-start',
-              gap: '1rem',
-              marginBottom: '0.75rem',
-              padding: '1rem',
+              gap: '1.25rem',
+              marginBottom: '1rem',
+              padding: '1.25rem',
               background: 'rgba(255, 255, 255, 0.6)',
-              borderRadius: '8px',
+              borderRadius: '12px',
               border: '1px solid rgba(245, 158, 11, 0.2)'
             }}>
-              <FaCheckCircle color="#10b981" size={20} style={{ marginTop: '2px', flexShrink: 0 }} />
-              <span style={{ color: '#92400e', fontSize: 'clamp(0.85rem, 1.8vw, 0.95rem)', lineHeight: 1.5 }}>{item}</span>
+              <FaCheckCircle color="#10b981" size={24} style={{ marginTop: '2px', flexShrink: 0 }} />
+              <span style={{ color: '#92400e', fontSize: '1.1rem', lineHeight: 1.7 }}>{item}</span>
             </div>
           ))}
         </div>
@@ -2349,7 +2376,7 @@ const App = () => {
     Slide8, Slide9, Slide10, Slide11, Slide12, Slide13, Slide14
   ];
 
-  const CurrentSlide = slides[currentSlide - 1] || Slide1;
+  const CurrentSlide = slides[currentSlide - 1];
 
   return (
     <div style={styles.container}>
@@ -2359,11 +2386,9 @@ const App = () => {
           margin: '0 auto',
           display: 'flex',
           alignItems: 'center',
-          justifyContent: 'space-between',
-          flexWrap: 'wrap',
-          gap: '1rem'
+          justifyContent: 'space-between'
         }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
             <button
               onClick={prevSlide}
               disabled={currentSlide === 1}
@@ -2371,19 +2396,23 @@ const App = () => {
                 ...styles.button,
                 background: currentSlide === 1 ? 'rgba(148, 163, 184, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                 color: currentSlide === 1 ? '#64748b' : 'white',
-                padding: '0.75rem',
-                width: '40px',
-                height: '40px',
+                padding: '0.875rem',
+                width: '50px',
+                height: '50px',
                 opacity: currentSlide === 1 ? 0.5 : 1,
                 cursor: currentSlide === 1 ? 'not-allowed' : 'pointer'
               }}
+              onMouseEnter={(e) => {
+                if (currentSlide !== 1) e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               <FaArrowLeft />
             </button>
 
             <div style={{
-              fontSize: 'clamp(0.9rem, 1.8vw, 1.1rem)',
-              fontWeight: 600,
+              fontSize: '1.25rem',
+              fontWeight: 700,
               color: '#e2e8f0'
             }}>
               <span style={{ color: '#3b82f6' }}>{currentSlide}</span>
@@ -2397,31 +2426,62 @@ const App = () => {
                 ...styles.button,
                 background: currentSlide === totalSlides ? 'rgba(148, 163, 184, 0.3)' : 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)',
                 color: currentSlide === totalSlides ? '#64748b' : 'white',
-                padding: '0.75rem',
-                width: '40px',
-                height: '40px',
+                padding: '0.875rem',
+                width: '50px',
+                height: '50px',
                 opacity: currentSlide === totalSlides ? 0.5 : 1,
                 cursor: currentSlide === totalSlides ? 'not-allowed' : 'pointer'
               }}
+              onMouseEnter={(e) => {
+                if (currentSlide !== totalSlides) e.currentTarget.style.transform = 'scale(1.05)';
+              }}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
               <FaArrowRight />
             </button>
           </div>
 
-          <button
-            onClick={toggleFullscreen}
-            style={{
-              ...styles.button,
-              display: 'flex',
-              alignItems: 'center',
-              gap: '0.5rem'
-            }}
-          >
-            {isFullscreen ? <FaCompress /> : <FaExpand />}
-            <span style={{ display: window.innerWidth < 640 ? 'none' : 'inline' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1.25rem' }}>
+            <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <span style={{
+                background: 'rgba(59, 130, 246, 0.2)',
+                color: '#3b82f6',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '50px',
+                fontSize: '0.95rem',
+                fontWeight: 700,
+                border: '2px solid rgba(59, 130, 246, 0.3)'
+              }}>
+                Web Sémantique
+              </span>
+              <span style={{
+                background: 'rgba(139, 92, 246, 0.2)',
+                color: '#8b5cf6',
+                padding: '0.5rem 1.25rem',
+                borderRadius: '50px',
+                fontSize: '0.95rem',
+                fontWeight: 700,
+                border: '2px solid rgba(139, 92, 246, 0.3)'
+              }}>
+                Présentation
+              </span>
+            </div>
+
+            <button
+              onClick={toggleFullscreen}
+              style={{
+                ...styles.button,
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.75rem'
+              }}
+              onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+              onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
+            >
+              {isFullscreen ? <FaCompress /> : <FaExpand />}
               {isFullscreen ? 'Quitter' : 'Plein écran'}
-            </span>
-          </button>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -2429,39 +2489,36 @@ const App = () => {
         <CurrentSlide />
       </main>
 
-      {!isFullscreen && (
-        <div style={{
-          position: 'fixed',
-          bottom: '1rem',
-          left: 0,
-          right: 0,
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '0.25rem',
-          zIndex: 40,
-          flexWrap: 'wrap',
-          padding: '0 1rem'
-        }}>
-          {Array.from({ length: totalSlides }).map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentSlide(index + 1)}
-              style={{
-                width: currentSlide === index + 1 ? '20px' : '8px',
-                height: '8px',
-                borderRadius: '4px',
-                border: 'none',
-                background: currentSlide === index + 1 ? 
-                  'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 
-                  'rgba(148, 163, 184, 0.4)',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}
-              aria-label={`Aller à la slide ${index + 1}`}
-            />
-          ))}
-        </div>
-      )}
+      <div style={{
+        position: 'fixed',
+        bottom: '1.5rem',
+        left: 0,
+        right: 0,
+        display: 'flex',
+        justifyContent: 'center',
+        gap: '0.75rem',
+        zIndex: 40
+      }}>
+        {Array.from({ length: totalSlides }).map((_, index) => (
+          <button
+            key={index}
+            onClick={() => setCurrentSlide(index + 1)}
+            style={{
+              width: currentSlide === index + 1 ? '32px' : '12px',
+              height: '12px',
+              borderRadius: '6px',
+              border: 'none',
+              background: currentSlide === index + 1 ? 
+                'linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%)' : 
+                'rgba(148, 163, 184, 0.4)',
+              cursor: 'pointer',
+              transition: 'all 0.3s ease',
+              boxShadow: currentSlide === index + 1 ? '0 4px 10px rgba(59, 130, 246, 0.5)' : 'none'
+            }}
+            aria-label={`Aller à la slide ${index + 1}`}
+          />
+        ))}
+      </div>
     </div>
   );
 };
